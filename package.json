@@ -1,0 +1,10 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "scripts": {
+    "install:check": "npm install --package-lock-only --ignore-scripts",
+    "typecheck": "node apps/web/scripts/typecheck.js",
+    "test": "node --test apps/web/tests/*.test.js",
+    "build": "node apps/web/scripts/build.js"
+  }
+}

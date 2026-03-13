@@ -1,0 +1,14 @@
+<!doctype html>
+<html><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><link rel="stylesheet" href="/assets/styles.css" /><title>Reschedule</title></head>
+<body><main class="grid"><h1>Reschedule entry</h1><div class="card" id="content"></div></main>
+<script type="module">
+import { getAppointmentById } from "/assets/booking-core.js";
+const id = new URLSearchParams(location.search).get("id");
+const appointment = id ? getAppointmentById(id) : null;
+const content = document.getElementById("content");
+if (!appointment) {
+  content.innerHTML = "<p class='error'>Appointment not found.</p>";
+} else {
+  content.innerHTML = "<p>Appointment: " + appointment.id + "</p><p>Client: " + appointment.client.firstName + " " + appointment.client.lastName + "</p><p>Phase 3B reschedule foundation entry.</p><a href='/confirm/?id=" + appointment.id + "'>Back to confirmation</a>";
+}
+</script></body></html>
