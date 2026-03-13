@@ -1,0 +1,154 @@
+Acuity Scheduling — Part 10 Mobile Audit (Codex/GitHub Normalized Text)
+
+Purpose
+This file is a normalized coding-oriented text version of the fuller mobile audit, focused on responsive web behavior for:
+- public booking
+- client self-service
+- admin mobile web
+
+This file should be treated as the mobile delta against the desktop baseline and clone-ready spec.
+
+Baseline status
+- Mobile evidence is broader than early partial mobile passes
+- Main validated viewport in the audit: 390 x 844
+- Native app was not evidenced and must not be assumed as baseline scope
+
+Coverage completed
+1. Public mobile booking flow
+2. Client self-service mobile web (through login and confirmation-page modals)
+3. Admin mobile web across multiple core modules
+
+Public mobile booking findings
+- Public scheduling page adapts into stacked / vertical layouts
+- Time slots compress into single-column / vertically scrollable selection patterns
+- Login link remains accessible and opens mobile modal
+- Booking form remains usable in mobile layout
+- Confirmation page exposes Add to iCal/Outlook, Add to Google, Edit Info, Reschedule, Cancel
+- Reschedule and Edit Information are modal-driven on mobile as well
+
+Client self-service findings on mobile
+- Log in modal exists on mobile
+- Reset password modal exists on mobile
+- No fully separate dedicated mobile client portal was evidenced
+- Self-service behavior is largely confirmation-page driven via modals
+
+Admin mobile findings
+Observed reachable modules on mobile:
+- Home dashboard
+- Calendar
+- Availability
+- Rooms / Resources
+- Global Scheduling Limits
+- Clients
+- Clients Import/Export
+- Payment Settings
+- Invoices
+- Emails & Texts
+- Packages / Coupons
+- Appointment Types / Add-Ons
+- Intake Form Questions
+
+Partially or not fully covered on mobile:
+- Scheduling Page admin surfaces
+- Integrations
+- Reports
+- broader viewport matrix
+
+Navigation findings on mobile admin
+- Full desktop side nav collapses into hamburger-style navigation
+- Mini calendar appears in the collapsed admin navigation pattern
+- Some modules are deeper and less discoverable than on desktop
+- Mobile information architecture is materially different in discoverability, though not in business logic
+
+Mobile-only friction list
+
+MOB-01
+Coupon / gift-code input was missing on the observed mobile booking form.
+Implication: clone team must make an explicit decision whether to preserve this observed delta or normalize to desktop parity.
+
+MOB-02
+Chip-style email input sometimes failed to focus; pasting text was observed as workaround.
+Implication: use standard mobile-friendly inputs for critical booking fields.
+
+MOB-03
+Admin hamburger menu hides some modules deeper under More / Integrations.
+Implication: preserve discoverability of important admin modules on small screens.
+
+MOB-04
+Long admin forms push Save below the fold.
+Implication: use sticky or clearly recoverable Save / primary CTA patterns on mobile forms.
+
+MOB-05
+Upgrade overlays can fully cover context on mobile.
+Implication: locked-state UX must preserve context and easy dismissal / return path.
+
+MOB-06
+Reschedule modal requires extra scrolling and day navigation.
+Implication: mobile reschedule/time-picker UI needs simplification and careful touch ergonomics.
+
+MOB-07
+Admin mobile validation is largely based on 390x844.
+Implication: further viewport QA is required beyond the evidence set.
+
+Observed business rules from mobile audit
+- Mobile uses same product entitlement model as desktop
+- Mobile is a responsive presentation layer, not separate product logic
+- Public/client/admin actions remain conceptually the same, but discoverability and ergonomics differ
+- Many premium/upgrade walls appear as full overlays on mobile
+- Payment settings remain constrained by processor connection state
+- Invoices remain empty-state tolerant on mobile too
+- Emails & Texts surfaces are reachable in mobile admin
+- Packages/subscriptions remain gated in trial/free states
+
+Critical clone implications
+1. Mobile must reuse the same routes, permissions, and domain logic as desktop.
+2. Do not design a separate mobile business model.
+3. Preserve destructive confirmation clarity on mobile.
+4. Improve discoverability for admin modules hidden behind collapsible navigation.
+5. Treat the missing mobile coupon field as an explicit product decision, not an accidental omission in implementation.
+6. Design mobile forms so Save is not lost below the fold.
+7. Use mobile-friendly standard inputs for booking identity fields.
+
+Viewport status
+Validated in fuller audit:
+- 390 x 844
+
+Requested but not individually validated in the provided evidence:
+- 360 x 800
+- 375 x 667
+- 412 x 915
+- 430 x 932
+- 768 x 1024
+
+Conservative clone rule
+Implement responsive mobile parity across public booking, client self-service, and admin core surfaces.
+Then plan an extra QA sweep for additional viewports beyond the evidence set.
+
+Recommended clone design decisions derived from Part 10
+- Keep public booking confirmation actions large and vertically accessible
+- Avoid tiny destructive controls
+- Preserve modal usability with adequate scroll containment
+- Provide predictable back/close handling for upgrade and confirm overlays
+- Ensure admin mobile navigation exposes core modules without deep hidden traps
+- Prefer desktop/mobile parity in key commerce flows unless evidence strongly supports intentional divergence
+
+Open gaps after Part 10
+- Mobile Scheduling Page admin surfaces
+- Mobile Integrations admin behavior
+- Mobile Reports admin behavior
+- Multi-viewport full responsive matrix
+- Real native app behavior (still out of scope / not evidenced)
+
+Coding guidance
+Use this file when implementing:
+- responsive layout rules
+- mobile-specific UX handling within shared routes
+- admin mobile navigation
+- confirmation / reschedule / cancel mobile flows
+- mobile form ergonomics
+- sticky CTA strategy
+
+Do not use this file to justify creating separate mobile business logic.
+
+End of normalized Part 10 mobile audit.
+

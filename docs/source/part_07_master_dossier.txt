@@ -1,0 +1,174 @@
+Acuity Scheduling — Part 07 Master Dossier (Codex/GitHub Normalized Text)
+
+Purpose
+This file is a normalized text version of the master dossier for Parts 1–7, optimized for coding agents, repository storage, and prompt grounding.
+
+Source Role
+Consolidated research dossier replacing scattered reports for Parts 1–7, including the Part 7 addendum for Emails & Texts.
+
+Key Coverage
+1. Public booking flow (desktop)
+2. Client self-service (desktop)
+3. Admin calendar and appointment operations
+4. Availability and scheduling controls
+5. Clients CRM
+6. Scheduling Page customization, links, and embeds
+7. Appointment Types, Add-ons, Coupons, Forms, Classes gap
+8. Payments, Packages, Subscriptions, Invoices, Billing
+9. Integrations and developer surface (baseline only in this dossier)
+10. High-level business rules and data model
+11. Emails & Texts addendum
+
+Current coverage status
+- Parts 1–7: substantially covered
+- Still open after this dossier: full Integrations/Sync, Reports, Manage Users, fuller mobile audit, final clone-ready PRD/spec
+
+Product role map
+- Anonymous visitor: can use public scheduler and public booking flow
+- Client (guest): can book and use confirmation-page edit/reschedule/cancel
+- Client (authenticated): can sign up, log in, reset password, view appointments and manage codes (mostly empty states observed)
+- Owner/Admin: has access to admin back office, calendar ops, availability, clients CRM, scheduling page, appointment types, forms, money surfaces
+- Contributor/Staff: role implied, but granular permissions not yet validated in this dossier
+- Enterprise admin: implied by pricing/help, not validated in practical UI
+
+Top-level admin navigation confirmed in research
+- Home
+- Calendar
+- Availability
+- Clients
+- Scheduling Page
+- Appointment Types
+- Add-ons
+- Coupons
+- Intake Form Questions
+- Packages, Gift Certificates & Subscriptions
+- Payment Settings
+- Invoices
+- Emails & Texts (partial in this dossier)
+- Integrations (baseline only)
+- Sync with other Calendars (not fully covered here)
+- Reports (not covered here)
+- Manage Users (not covered here)
+- Manage Billing (partial baseline only)
+
+Pricing / plan logic captured in dossier
+- Starter / Standard / Premium / Enterprise
+- Developer-facing legacy label “Powerhouse” appears in some surfaces and should be normalized to Premium-tier developer gating
+- Typical gating patterns observed:
+  - Packages / subscriptions / gift certificates: Standard+ or Premium-like gates depending on surface wording
+  - SMS reminders: paid plan gate
+  - Advanced CSS / API / developer customization: Premium / legacy Powerhouse gate
+  - Billing/host-shell and enterprise controls are separate from regular scheduling admin surfaces
+
+Public booking flow findings
+- Single-service configuration can skip service catalog and land directly on Date & Time
+- Multiple time selection works
+- Recurring booking is a separate modal branch
+- Booking form requires core client identity fields and may include intake questions
+- Confirmation page is the key self-service hub
+- Edit Info, Reschedule, Cancel are exposed after booking
+- Remaining open items from desktop research:
+  - sold-out / no availability edge states
+  - live payment branch
+  - add-ons in booking flow
+  - client timezone switching
+
+Client self-service findings
+- Signup, login, reset password observed
+- Menu includes Appointments, Manage codes, Logout
+- Upcoming/Past and Manage codes were mostly observed as empty states
+- Full confirmed-state lifecycle for authenticated client remained partially blocked by reCAPTCHA in one session
+
+Admin calendar findings
+- Dashboard and calendar module are strong evidence surfaces
+- Week / Day / Month views observed
+- Appointment detail panel observed
+- Manual appointment creation observed
+- Cancel flow includes no-show and send-email options
+- Block Off Time UI observed
+- Add New -> Order path showed plan gating / upsell in trial state
+
+Availability findings
+- Weekly hours by calendar observed
+- Calendar Settings metadata observed
+- Rooms / Resources observed
+- Global Scheduling Limits observed
+- Availability should be modeled as a combination of regular hours + overrides + global limits + resource constraints
+
+Clients CRM findings
+- Client list, search, filters, Add Client, detail panel, edit mode, ban, print, delete, import/export observed
+- Client minimum validation: first + last name and at least one contact path
+- Unban flow, invalid CSV import, and packages/memberships inside client profile remain open
+
+Scheduling Page findings
+- Preview, Styles, Settings, Advanced CSS gate, Links/Embeds observed
+- Direct links and embed delivery surfaces are real product modules, not cosmetic extras
+- Many public-display toggles exist in settings
+
+Service catalog findings
+- Appointment Type editor is central and rich: name, description, duration, buffer, category, color, privacy, price, image, calendars, forms, resources, integrations
+- Add-ons are separate entities with price/duration/access/assignment rules
+- Appointment coupons are separate from package/gift coupons
+- Forms are a separate catalog and can be custom, Terms & Conditions, SOAP notes, internal-use-only
+- Group classes / class series remain under-evidenced
+
+Money surface findings
+- Payment processors: Stripe, Square, PayPal connection shells observed
+- Payment-at-booking controls observed
+- Packages, gift certificates, subscriptions, order/subscriber shells observed
+- Invoices builder and scheduling-level invoice shell observed
+- Host-level billing shell (Squarespace-style) is separate from scheduling invoices
+- Processor state is a core dependency for meaningful payments/subscriptions/invoices
+
+Communications findings (Part 7 addendum)
+- Client Emails, SMS reminders, Admin Alerts were researched
+- Communications are not a single flat module:
+  - template-based client emails
+  - plan-gated SMS reminders
+  - toggle-based admin alerts
+- External delivery / test-send and deep-link loops remain partially open
+
+High-level business rules captured
+- Appointment Type is central to duration, pricing, visibility, forms, resources, and integrations
+- Buffer / block-off logic changes real availability
+- Global Scheduling Limits affect booking and self-service windows
+- Add-ons may be client-facing or admin-only
+- Internal-use forms must not appear in public booking
+- Blank coupon expiration behaves as non-expiring
+- Packages / gift certificates / subscriptions depend on both plan gating and payment processor state
+- Billing shell is distinct from core scheduling admin
+
+High-level logical entities from dossier
+- User / Owner / Contributor
+- Calendar
+- Availability Rule / Override
+- Resource
+- Client
+- Appointment
+- Appointment Type
+- Add-on
+- Form / Question Set
+- Coupon
+- Package / Gift Certificate
+- Subscription
+- Order / Subscriber
+- Invoice
+- Payment
+- Integration Connection
+
+What remains explicitly open after Part 07 master dossier
+- full Integrations + Sync detail
+- Reports
+- Manage Users / granular permissions
+- mobile web parity audit completion
+- final clone-ready PRD / technical spec
+
+Practical use of this file
+Use this file as the broad context document. For implementation specifics, defer to:
+- part-08-integrations-sync.txt
+- part-09-reports-users-billing.txt
+- part-10-mobile-audit.txt
+- part-11-clone-spec.txt
+
+End of normalized Part 07 dossier.
+

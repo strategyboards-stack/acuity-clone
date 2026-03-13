@@ -1,0 +1,230 @@
+Acuity Scheduling — Part 09 Reports + Manage Users + Billing Edge (Codex/GitHub Normalized Text)
+
+Purpose
+This file is a normalized coding-oriented text version of Part 09, focused on:
+- Reports
+- Manage Users / Permissions shell
+- plan gating / upgrade walls
+- site-level billing edge
+- scheduling-level payment/invoice shell distinctions
+
+Executive summary
+Part 09 proves three system-shaping facts:
+1. Reports are a real first-class admin surface with multiple tabs and shared filters.
+2. Manage Users does not behave like a normal scheduling page; it opens a host-shell permissions/ownership surface.
+3. Billing exists in two distinct layers:
+   - scheduling-level money surfaces inside Acuity
+   - site/account-level billing shell outside ordinary scheduling admin
+
+This distinction must be preserved in the clone.
+
+Coverage completed
+- Reports: Appointments, Revenue, Users, Intake Forms, Tips, Import/Export
+- Manage Users: Permissions & Ownership shell
+- Plan/upgrade walls in monetization surfaces
+- Site-level billing shell: Payment Information, Subscriptions, Invoices
+- Scheduling-level payment settings and invoices
+
+Reports inventory
+
+Observed report tabs
+- Appointments
+- Revenue
+- Users
+- Intake Forms
+- Tips
+- Import/Export
+
+Shared behavior across reports
+- Shared filter pattern
+- Date range selector
+- Calendar selector
+- Show button / applied filters
+- Empty states are valid and explicitly rendered
+
+Tab-specific findings
+
+Appointments report
+- Populated and empty states observed
+- Includes chart and summary table
+- Export capability visible
+
+Revenue report
+- Empty state observed
+- No live processed revenue in the sampled state
+
+Users report
+- Populated state observed
+- Aggregates activity by user who scheduled appointment
+
+Intake Forms report
+- Blank until a specific question is selected
+- Requires selecting a question and then clicking Show
+- After that, answer-level counts and values appear
+
+Tips report
+- Empty state observed
+- Reuses common report tab filtering pattern
+
+Import/Export
+- Utility page rather than classic chart report
+- Includes export/import controls and data-range options
+
+Business rule from reports
+- Intake Forms report does not populate until a specific question is selected and Show is clicked.
+- Reports must tolerate sparse data and still render valid empty states.
+
+Manage Users / Permissions shell
+
+What was observed
+- Manage Users opens a Permissions & Ownership shell
+- Owner row visible
+- Transfer Ownership visible
+- Invite Contributor entry visible
+- Invitation flow is gated by additional verification step in observed state
+
+What this implies
+- Manage Users is not a normal child page of scheduling admin
+- It behaves like a host-shell / account-shell permissions area
+- Owner/member/invitation data should not be flattened into booking/calendar/client tables
+
+What remains under-evidenced
+- Actual contributor role variants
+- Granular permissions matrix
+- Staff/restricted roles
+- Enterprise-only central user management details
+
+Conservative clone rule
+- Model contributor roles conservatively and extensibly
+- Keep Permissions/Ownership as separate shell area
+- Preserve explicit verification gate on invitation if needed
+
+Plan gating / monetization findings
+
+Strong gating observed in:
+- Packages / Gift Certificates / Subscriptions
+- Subscribers
+- Scheduling invoices
+- Site subscription detail / trial state
+- Premium-feature surfaces
+
+Observed gating examples
+- Packages / gift certificates / subscriptions explicitly positioned as Standard/Premium-like gated features
+- Subscribers page warns that subscriptions cannot be sold when processor = none
+- Scheduling invoices warn to connect a payment processor
+- Trial subscription state shows upgrade CTA and expiry date
+
+Important rule
+Plan gating is not enough by itself.
+Dependency state also matters.
+Examples:
+- feature may be on plan, but unusable if payment processor = none
+- invite flow may be visible, but blocked by verification state
+
+Billing edge: two-layer distinction
+
+Layer 1 — Scheduling-level money surfaces
+Observed inside product admin:
+- Payment Settings
+- Payment at Booking
+- Packages / Gift Certificates / Subscriptions
+- Orders / Subscribers
+- Scheduling Invoices
+
+Layer 2 — Site/account-level billing shell
+Observed outside plain Acuity admin, in Squarespace-style shell:
+- Billing overview
+- Payment Information
+- Subscriptions
+- Site-level Invoices
+
+This is a core architecture implication.
+The clone must preserve separation between:
+- scheduling commerce operations
+and
+- account/site subscription & payment-method administration
+
+Site billing shell findings
+
+Billing overview
+- Three-card entry hub:
+  - Payment Information
+  - Subscriptions
+  - Invoices
+
+Payment Information
+- Billing address incomplete warning observed
+- Payment edits gated behind completing billing address form
+- Unsaved-changes modal appears when leaving with in-progress edits
+
+Subscriptions
+- Trial-state view observed
+- Upgrade / Subscribe CTA visible
+- Account remained in trial, not active paid subscription
+
+Site-level invoices
+- Empty list observed
+- Separate from scheduling-module invoices
+
+Critical business rules from Part 09
+1. Reports are a native admin module with shared filter patterns.
+2. Reports must gracefully handle empty states.
+3. Intake Forms report requires explicit question selection.
+4. Manage Users is a permissions/ownership shell, not a booking page.
+5. Invite Contributor can be visible but still verification-gated.
+6. Packages / subscriptions are both plan-gated and processor-dependent.
+7. Scheduling invoices depend on connected payment processor.
+8. Billing shell requires unsaved-changes protection.
+9. Trial status is a first-class state in billing/subscription UX.
+10. Enterprise surfaces were not directly observed and should remain open-boundary assumptions.
+
+Recommended clone entities / concepts
+- ReportViewConfig
+  - tab type
+  - filters
+  - date range
+  - calendar filter
+- ReportDataset
+  - rows
+  - summary values
+  - chart payload
+- OwnershipShell
+  - owner row
+  - transfer ownership action
+  - invitation state
+  - verification requirement
+- ContributorInvitation
+  - email
+  - role placeholder
+  - verification state
+- BillingShellState
+  - trial vs paid
+  - payment info completeness
+  - invoice history
+  - subscription state
+- MoneyDependencyState
+  - payment processor connected/disconnected
+  - can sell subscriptions yes/no
+  - invoices collectable yes/no
+
+Open gaps from Part 09
+- Granular contributor permission matrix
+- Enterprise-only control surfaces
+- Actual export payload contents in populated states
+- Actual save path for billing payment-method updates
+- Full invite contributor flow after verification
+- Full paid-state site billing behavior
+
+Coding guidance
+Use this file when implementing:
+- Reports module
+- Manage Users / Permissions shell
+- Billing/account shell boundary
+- Plan gating and dependency gating model
+- Scheduling invoices vs host-level billing separation
+
+Do not collapse Billing and Manage Users into standard scheduling-admin routing.
+That would contradict the evidence set.
+
+End of normalized Part 09.
+

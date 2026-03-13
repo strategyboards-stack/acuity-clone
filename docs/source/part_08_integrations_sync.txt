@@ -1,0 +1,192 @@
+Acuity Scheduling — Part 08 Integrations + Sync + Developer Surface (Codex/GitHub Normalized Text)
+
+Purpose
+This file is a normalized coding-oriented text version of Part 08, focused on integrations, calendar sync, and developer/admin technical surfaces.
+
+Scope covered in the source research
+- Top-level Integrations page
+- Analytics + Custom Integrations section
+- API credentials / developer-facing surface
+- Zapier workflow cards
+- Sync with other Calendars
+- One-way calendar publication
+
+Executive summary
+Part 08 confirms that Acuity's integrations architecture is adapter-driven, not part of the booking core. It also proves that calendar synchronization must be modeled as two distinct capabilities:
+1. Two-way sync through provider connections (via Cronofy)
+2. One-way ICS/iCal publication
+
+This distinction is critical for the clone.
+
+Primary surfaces observed
+1. Google Analytics setup
+2. Zoho Flow informational bridge
+3. Custom Sidebar Integration
+4. Custom Conversion Tracking
+5. Webhooks
+6. Zapier workflow cards
+7. API credentials
+8. Google Calendar sync
+9. iCloud sync
+10. Outlook Office 365 sync
+11. Outlook Exchange sync
+12. Outlook.com sync
+13. 1-way Calendar Sync
+
+Integrations inventory
+
+Google Analytics
+- Fields observed: Measurement ID, Secret Value
+- Includes Anonymize IP checkbox
+- Represents event-forwarding / analytics tagging rather than scheduling logic
+- Should be modeled as account-level analytics config
+
+Zoho Flow
+- No native direct connect inside Acuity
+- Surface is instructional and points to external pre-built flows
+- This is a bridge, not a core native integration
+
+Custom Sidebar Integration
+- Injects custom HTML/widget into admin appointment sidebar
+- Uses placeholders / variables from appointment and client context
+- Should be modeled as a developer-tier HTML injection surface scoped to appointment sidebar rendering
+
+Custom Conversion Tracking
+- Injects HTML on confirmation page
+- Uses dynamic variables / placeholders
+- Should be treated as developer-tier confirmation-page tracking config
+
+Webhooks
+- Separate endpoint fields by event family
+- Observed event classes include:
+  - new appointment
+  - rescheduled
+  - canceled
+  - catch-all update
+  - order completed
+- This implies event-driven integration architecture and per-event endpoint configuration
+
+API Credentials
+- Surface shows User ID and API Key
+- Includes reset action and docs link
+- Explicitly gated by legacy Powerhouse / premium developer gating
+- Should be modeled separately from webhook surface and custom code surfaces
+
+Zapier
+Observed workflow cards:
+- Google Contacts
+- Salesforce
+- Infusionsoft (empty/no workflows found)
+- Google Sheets
+
+Implication:
+- Zapier is treated as workflow bridge inventory, not as an internal workflow builder
+- Some integrations have ready-made recipes, some are empty-state informational surfaces
+
+Calendar Sync inventory
+
+Two-way sync providers observed
+- Google Calendar
+- iCloud
+- Outlook Office 365
+- Outlook Exchange
+- Outlook.com
+
+Common behavior observed in sync provider pages
+- Connect button per provider
+- Language implies appointments from Acuity go into external calendar
+- External events can block Acuity availability
+- Provider connection is mediated via Cronofy
+
+iCloud-specific note
+- iCloud flow references app-specific password
+
+One-way Calendar Sync
+- Separate dedicated page
+- Publishes iCal/ICS outward
+- Does NOT provide reverse availability blocking from subscriber calendars
+- Must never be modeled as equivalent to two-way sync
+
+Critical architecture rules derived from Part 08
+1. Two-way sync and one-way ICS publication are separate modules.
+2. Sync belongs in an adapter layer, not in booking-core logic.
+3. External provider states should be modeled explicitly.
+4. Webhooks are event subscribers/publishers, not booking workflow owners.
+5. API credentials, Webhooks, Custom Sidebar, and Conversion Tracking are developer surfaces, not generic user settings.
+6. Cronofy is the observed mediation layer for two-way calendar sync providers.
+
+Observed business rules
+- API and some developer functions are premium / legacy Powerhouse gated.
+- Cronofy mediates two-way calendar sync.
+- One-way sync is publication only.
+- External bridges such as Zapier and Zoho Flow depend on the external service for actual automation behavior.
+- Post-connect states were not fully validated because real external accounts were not connected.
+
+Required clone modeling implications
+
+Integration categories to preserve
+- Analytics
+- Workflow bridges
+- Developer custom surfaces
+- Webhooks/API
+- Calendar sync providers
+- One-way publication
+
+Recommended internal entities / concepts
+- IntegrationConnection
+  - provider
+  - auth state
+  - last sync state
+  - error state
+  - reconnect / re-auth requirement
+  - config payload
+- WebhookEndpoint
+  - event type
+  - target URL
+  - enabled/disabled
+- DeveloperSurfaceConfig
+  - sidebar HTML
+  - conversion tracking HTML
+  - gated by entitlement
+- CalendarSyncConnection
+  - provider
+  - directionality
+  - calendar mapping
+  - availability blocking rules
+- ApiCredentialState
+  - user id
+  - api key state
+  - last rotated at
+
+Provider states that should be modeled conservatively even if under-evidenced
+- connected
+- disconnected
+- action-required
+- re-auth-required
+- error
+- never-connected
+
+Open gaps from Part 08
+- Actual post-connect states
+- Disconnect flow after successful provider connection
+- Re-auth after expired tokens
+- Provider-specific field mapping
+- Real calendar mapping UX after connection
+- Actual outbound webhook delivery verification
+- Full API endpoint coverage beyond credentials screen
+- Full payment settings in integration context (not the same as scheduling payment settings)
+
+Coding guidance
+Use this file when implementing:
+- integration hub
+- calendar sync pages
+- provider connection models
+- webhook/event adapter layer
+- developer surfaces
+- API credentials shell
+
+Do not use this file to overreach into booking-core logic.
+Booking rules belong to the clone spec and scheduling modules, not integration adapters.
+
+End of normalized Part 08.
+

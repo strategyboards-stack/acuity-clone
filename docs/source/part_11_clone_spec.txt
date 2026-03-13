@@ -1,0 +1,352 @@
+Acuity Scheduling — Part 11 Final Clone-Ready Spec (Codex/GitHub Normalized Text)
+
+Purpose
+This file is the primary clone-ready product/specification text for implementation.
+It consolidates the prior evidence set into a handoff-ready implementation baseline.
+This should be treated as the highest-priority source of truth for coding agents.
+
+Audience
+- Product
+- Design
+- Frontend
+- Backend
+- QA
+
+Build intent
+Handoff-ready spec for a responsive web clone of Acuity Scheduling with explicit evidence boundaries, assumptions, risks, and implementation implications.
+
+Executive summary
+Acuity Scheduling in the evidence set is a multi-surface scheduling platform with three major layers:
+1. Public Scheduler
+2. Client Self-Service
+3. Admin Back Office
+
+Additionally, the product includes:
+- availability engine
+- clients CRM
+- configurable public scheduling page
+- service catalog and forms
+- money surfaces
+- communications
+- integrations and sync
+- reports
+- permissions shell
+- host-style billing shell
+- responsive mobile web parity
+
+Several areas remain under-evidenced and must be treated conservatively:
+- contributor permission granularity
+- enterprise-only operational UI
+- live processor-connected payment flows
+- post-connect integration states
+- group classes / class series lifecycle
+- native app scope
+
+Most important implementation implications
+- Booking and self-service are tightly coupled to scheduling limits, forms, and communications.
+- Payments, subscriptions, and invoices cannot be modeled faithfully without processor-state gating.
+- Communications split into three UX models:
+  - template-based client email
+  - plan-gated SMS reminder editing
+  - toggle-based admin alerts
+- Calendar sync and external automations belong in an adapter layer.
+- Mobile is responsive web parity, not a separate native-product baseline.
+- Billing and Manage Users behave like host-shell surfaces and must remain architecturally distinct from regular scheduling-admin pages.
+
+Domain map
+
+DOM-01 Public Scheduler
+Public entry into booking, service/date-time selection, booking form, confirmation, edit/reschedule/cancel entry.
+
+DOM-02 Client Self-Service
+Client auth, account menu, appointments, manage codes, confirmation-page self-service actions.
+
+DOM-03 Admin Calendar Ops
+Dashboard, calendar views, appointment detail, manual appointment creation, block off time, search and filters.
+
+DOM-04 Availability Engine
+Calendar hours, overrides, calendar settings, rooms/resources, global scheduling limits.
+
+DOM-05 Clients CRM
+Client list, filters, add/edit, notes, ban/delete, print, import/export, appointments context.
+
+DOM-06 Scheduling Page & Distribution
+Preview, styles, settings, direct links, embed code, booking button/bar.
+
+DOM-07 Service Catalog & Forms
+Appointment types, add-ons, appointment coupons, intake forms, Terms & Conditions, SOAP notes, classes gap.
+
+DOM-08 Money Surfaces
+Payment processors, payment-at-booking, packages/gifts/subscriptions, orders, subscribers, invoices.
+
+DOM-09 Communications
+Client emails, reminders, follow-ups, receipts, SMS reminders, admin alerts.
+
+DOM-10 Integrations & Developer Surface
+QuickBooks, Zoom, Google Analytics, Zapier/Zoho bridges, webhooks, API credentials, custom code surfaces.
+
+DOM-11 Calendar Sync
+Two-way sync via Cronofy for Google/iCloud/Outlook families and separate one-way ICS publication.
+
+DOM-12 Reports
+Appointments, Revenue, Users, Intake Forms, Tips, Import/Export.
+
+DOM-13 Permissions & User Management
+Permissions & Ownership shell, owner controls, contributor invitation entrypoint.
+
+DOM-14 Account Billing Shell
+Payment Information, site subscriptions, site invoices, trial/upgrade state.
+
+DOM-15 Mobile Web Layer
+Responsive presentation of public, client, and admin surfaces.
+
+DOM-16 Native App
+Not evidenced; out of baseline scope.
+
+Critical architecture rules
+1. Do not flatten Manage Users or Billing into ordinary scheduling pages.
+2. Do not model 1-way ICS publication as true 2-way sync.
+3. Do not create separate business logic for mobile.
+4. Do not keep feature gating only in the frontend.
+5. Do not let integrations own booking logic.
+6. Appointment is the central aggregate.
+7. Calendar sync must affect availability through explicit blockers/mapped busy events, not hidden side effects.
+8. Host-shell account surfaces must remain separate from scheduling-admin surfaces.
+
+Navigation tree (high level)
+Public
+- scheduling page
+- service/date-time
+- login/signup/reset
+- booking form
+- confirmed state
+- edit info
+- reschedule
+- cancel
+
+Client
+- appointments
+- manage codes
+- logout
+
+Admin
+- Home
+- Calendar
+- Availability
+- Clients
+- Scheduling Page
+- Appointment Types
+- Add-ons
+- Coupons
+- Intake Form Questions
+- Packages / Gift Certificates / Subscriptions
+- Payment Settings
+- Invoices
+- Emails & Texts
+- Integrations
+- Sync with other Calendars
+- Reports
+- Manage Users
+- Manage Billing
+
+Role matrix (practical summary)
+- Anonymous / guest client: public booking
+- Authenticated client: self-service, appointments, codes (evidence partial for non-empty states)
+- Owner/Admin: core admin surfaces
+- Contributor: implied, but granular permissions under-evidenced
+- Enterprise admin: inferred from pricing/help only
+
+Plan gating matrix (practical summary)
+- Core scheduler and booking: broadly available
+- Client email reminders/follow-ups: available broadly
+- SMS reminders: paid-plan gate (Standard+ style)
+- Packages/gift certificates/subscriptions: Standard+/Premium-style gate and processor dependency
+- Payment processors/payment-at-booking settings: visible broadly, live behavior depends on active processor
+- Scheduling invoices: shell visible, meaningful payment collection requires processor
+- Advanced CSS / API credentials / custom developer surfaces: Premium / legacy Powerhouse gate
+- Branding removal, HIPAA/BAA, multiple calendars, multiple staff time zones: pricing-evidenced higher-tier features
+- Manage Users visible in current trial, but invitation is verification-gated
+- Reports observed in current state
+- Enterprise-only central user management remains inference/open assumption
+
+Core business rules
+- Single-service setups may deep-link directly to Date & Time
+- Scheduling window is a combination of calendar availability and global scheduling limits
+- Multiple times selection is supported before booking form
+- Recurring booking is a separate modal branch
+- Private appointment types must be hidden from public catalog and accessible by direct link only
+- Forms with internal-use flag must not appear publicly
+- Admin-only add-ons must not appear in self-booking flow
+- Blank coupon expiration behaves as non-expiring
+- Resources constrain capacity invisibly to clients
+- Global scheduling limits affect booking/rescheduling/cancel/edit windows
+- Confirmation page is the central self-service hub
+- Packages / subscriptions / invoices depend on plan and processor state
+- Communications are split into three systems: client email templates, SMS reminders, admin alerts
+- Two-way sync is Cronofy-mediated
+- One-way Calendar Sync is publication only
+- Manage Users and Billing live in host-shell style surfaces
+- Mobile differences are UX-level, not business-logic-level
+
+High-level data model
+- User / Account member
+- Calendar
+- Availability rule / override
+- Resource
+- Client
+- Appointment
+- Appointment Type
+- Add-on
+- Form / Question set
+- Coupon
+- Package / Gift Certificate
+- Subscription
+- Order / Subscriber record
+- Invoice
+- Payment
+- Notification template / alert
+- Integration connection
+- Report dataset
+
+Appointment must remain the central aggregate linking booking, self-service, CRM, notifications, invoices, and reports.
+
+Integrations summary
+- QuickBooks Online
+- Zoom
+- Google Analytics
+- Zoho Flow
+- Custom Sidebar Integration
+- Custom Conversion Tracking
+- Webhooks
+- API credentials
+- Zapier workflow cards
+- Google Calendar sync
+- iCloud sync
+- Outlook Office 365 sync
+- Outlook Exchange sync
+- Outlook.com sync
+- 1-way Calendar Sync
+
+Integration architecture rules
+- Integrations are adapter-driven
+- Webhooks are event-driven
+- Sync providers are separate from one-way ICS publication
+- API credentials and custom code surfaces belong to developer-tier/admin technical surfaces
+- Provider states must be modeled explicitly: connected, disconnected, action-required, re-auth-required, error, never-connected
+
+Mobile summary
+- Public mobile booking observed
+- Client self-service mobile observed via login/confirmation-page modals
+- Admin mobile partially observed across many modules
+- 390x844 is the main validated viewport
+- Native app is out of baseline scope
+
+Important mobile frictions to preserve as explicit product decisions
+- mobile coupon field absence vs desktop parity
+- chip-style email input friction
+- hidden admin modules behind hamburger + more navigation
+- save buttons below the fold on long forms
+- full-screen upgrade overlays
+- reschedule modal scroll friction
+- incomplete viewport matrix beyond 390x844
+
+Recommended subsystem decomposition
+- Public booking frontend
+- Client identity & self-service
+- Scheduling / availability engine
+- Admin calendar operations
+- Clients CRM
+- Configuration & publishing
+- Money & billing
+- Notification engine
+- Integration adapter layer
+- Reports & aggregation
+- Feature gating service
+- Host shell
+
+Event model (important backend implications)
+Observed/inferred event classes include:
+- appointment.booked
+- appointment.rescheduled
+- appointment.canceled
+- appointment.updated
+- appointment.no_show
+- block.created
+- order.completed
+- payment.captured
+- invoice.created
+- reminder.due
+- summary.digest
+
+Cross-cutting technical rules
+- Feature gating must evaluate role, plan, trial, dependency state, and verification state
+- Booking, self-service, CRM, and notifications share appointment data
+- Integrations subscribe to internal events; they do not own core scheduling logic
+- Reports must tolerate sparse/empty datasets
+- Mobile must reuse same routes, entities, and permissions as desktop
+
+Implementation scope boundary
+In scope baseline:
+- responsive web clone of public scheduler
+- client self-service
+- admin calendar
+- availability
+- CRM
+- scheduling page
+- service catalog
+- money surfaces
+- communications
+- integrations inventory
+- reports
+- host-shell billing/permissions boundaries
+
+Out of scope until separately validated:
+- native app behavior
+- full enterprise-only admin stack
+- deep connected-provider states
+- live payment/refund flows
+- full group class / class series lifecycle
+
+REQ implementation baseline
+This spec defines clone-ready requirements REQ-001 through REQ-029 across:
+- public scheduler
+- self-service
+- admin shell
+- admin calendar
+- availability
+- clients CRM
+- scheduling page
+- service catalog
+- money surfaces
+- communications
+- integrations / sync
+- reports
+- permissions
+- cross-cutting plan gating
+- mobile parity
+- host-shell architecture
+
+Key open questions / assumptions / risks
+Open questions include:
+- actual contributor role granularity
+- enterprise-only surfaces beyond pricing/help
+- live processor-connected behavior for payments/invoices/subscriptions
+- post-connect integration states
+- full merge-field inventory and verified email deep-link loop
+- full group classes/class-series behavior
+- sold-out/no availability/add-ons public-booking edge cases
+- whether missing coupon field on mobile is intentional or bug
+- exact export/import outputs with populated data
+- exact mobile behavior of Scheduling Page, Integrations, Reports
+
+Normalization / assumptions
+- Legacy “Powerhouse” should be normalized to Premium-tier / developer gating in clone documentation
+- Host-shell behavior for Manage Users and Billing is real and should remain separate in architecture
+
+How to use this file
+Use this file as the main implementation spec for Codex.
+All planning, schema design, routing, feature decomposition, and acceptance framing should defer to this file first.
+Use Parts 07–10 as supporting evidence and detail supplements.
+
+End of normalized Part 11 clone-ready spec.
+
