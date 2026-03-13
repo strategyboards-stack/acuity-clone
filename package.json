@@ -1,0 +1,10 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "scripts": {
+    "typecheck": "node scripts/typecheck.mjs",
+    "test": "node --test tests/**/*.test.js",
+    "build": "node scripts/build.mjs"
+  },
+  "type": "module"
+}
