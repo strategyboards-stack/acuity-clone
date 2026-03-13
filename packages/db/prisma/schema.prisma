@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  CONTRIBUTOR
+}
+
+enum PlanTier {
+  FREE
+  STANDARD
+  PREMIUM
+}
+
+model Account {
+  id                String            @id @default(uuid())
+  name              String
+  plan              PlanTier          @default(FREE)
+  inTrial           Boolean           @default(false)
+  dependencyReady   Boolean           @default(false)
+  verificationReady Boolean           @default(false)
+  members           AccountMember[]
+  appointmentTypes  AppointmentType[]
+  addOns            AddOn[]
+  coupons           AppointmentCoupon[]
+  intakeForms       IntakeForm[]
+}
+
+model AccountMember {
+  id        String   @id @default(uuid())
+  accountId String
+  userId    String   @default(uuid())
+  role      UserRole
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, userId])
+}
+
+model AppointmentType {
+  id                String   @id @default(uuid())
+  accountId         String
+  name              String
+  durationMinutes   Int
+  privateType       Boolean  @default(false)
+  directBookingLink String?
+  active            Boolean  @default(true)
+  account           Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model AddOn {
+  id              String  @id @default(uuid())
+  accountId       String
+  name            String
+  priceCents      Int
+  durationMinutes Int     @default(0)
+  adminOnly       Boolean @default(false)
+  active          Boolean @default(true)
+  account         Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model AppointmentCoupon {
+  id              String    @id @default(uuid())
+  accountId       String
+  code            String
+  discountPercent Decimal   @db.Decimal(5, 2)
+  expiresAt       DateTime?
+  active          Boolean   @default(true)
+  account         Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, code])
+}
+
+model IntakeForm {
+  id          String         @id @default(uuid())
+  accountId   String
+  name        String
+  internalUse Boolean        @default(false)
+  active      Boolean        @default(true)
+  account     Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  questions   IntakeQuestion[]
+}
+
+model IntakeQuestion {
+  id       String    @id @default(uuid())
+  formId   String
+  prompt   String
+  required Boolean   @default(false)
+  position Int
+  form     IntakeForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
