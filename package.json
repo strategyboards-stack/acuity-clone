@@ -1,0 +1,20 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.12.3",
+  "scripts": {
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "dev:web": "pnpm --filter @acuity/web dev",
+    "dev:api": "pnpm --filter @acuity/api start:dev",
+    "dev:worker": "pnpm --filter @acuity/worker dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.1.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  }
+}

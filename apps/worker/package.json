@@ -1,0 +1,22 @@
+{
+  "name": "@acuity/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acuity/contracts": "workspace:*",
+    "bullmq": "^5.16.0",
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "@acuity/config": "workspace:*",
+    "@types/node": "^22.5.5",
+    "tsx": "^4.19.1"
+  }
+}
