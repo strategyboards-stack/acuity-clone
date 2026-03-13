@@ -1,0 +1,14 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "install:check": "npm install --workspaces --include-workspace-root",
+    "typecheck": "npm run typecheck -ws",
+    "build": "npm run build -ws",
+    "test": "npm run test -ws"
+  }
+}
