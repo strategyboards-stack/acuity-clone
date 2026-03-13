@@ -1,0 +1,12 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "typecheck": "node ./scripts/typecheck.mjs",
+    "test": "node --test ./tests/smoke.test.mjs",
+    "build": "node ./scripts/build.mjs"
+  },
+  "type": "module"
+}
