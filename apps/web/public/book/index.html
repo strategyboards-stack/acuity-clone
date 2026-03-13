@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><link rel="stylesheet" href="/assets/styles.css" /><title>Book</title></head>
+  <body>
+    <main>
+      <h1 id="title">Book Appointment</h1>
+      <div class="card grid">
+        <form id="booking-form" class="grid">
+          <label>Date<input name="date" type="date" required /></label>
+          <label>Time<input name="time" type="time" required /></label>
+          <label>First name<input name="firstName" required /></label>
+          <label>Last name<input name="lastName" required /></label>
+          <label>Email<input name="email" type="email" required /></label>
+          <label>Phone<input name="phone" type="tel" required /></label>
+          <label>Notes<textarea name="notes"></textarea></label>
+          <button type="button" class="secondary" id="open-recurring">Add recurrence</button>
+          <button type="submit">Confirm booking</button>
+          <p id="error" class="error"></p>
+        </form>
+      </div>
+    </main>
+
+    <div id="recurring-modal" class="modal-backdrop" hidden>
+      <div class="modal grid">
+        <h2>Recurring booking</h2>
+        <button class="secondary" data-frequency="weekly">Weekly</button>
+        <button class="secondary" data-frequency="biweekly">Biweekly</button>
+        <button class="secondary" data-frequency="monthly">Monthly</button>
+        <button id="close-modal" class="secondary">Close</button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { createAppointment, getAppointmentType, canAccessAppointmentType } from "/assets/booking-core.js";
+
+      const params = new URLSearchParams(location.search);
+      const appointmentTypeSlug = params.get("type") || "initial-consultation";
+      const directLink = params.get("direct") === "1";
+      const type = getAppointmentType(appointmentTypeSlug);
+      const error = document.getElementById("error");
+      const title = document.getElementById("title");
+      const recurringModal = document.getElementById("recurring-modal");
+      const recurringButton = document.getElementById("open-recurring");
+      let recurringFrequency = "none";
+
+      if (!type || !canAccessAppointmentType(appointmentTypeSlug, directLink)) {
+        error.textContent = "This appointment type is unavailable.";
+        document.getElementById("booking-form").querySelectorAll("input,textarea,button").forEach((el) => (el.disabled = true));
+      } else {
+        title.textContent = `Book ${type.name}`;
+      }
+
+      recurringButton.addEventListener("click", () => { recurringModal.hidden = false; });
+      document.getElementById("close-modal").addEventListener("click", () => { recurringModal.hidden = true; });
+      recurringModal.querySelectorAll("[data-frequency]").forEach((button) => {
+        button.addEventListener("click", () => {
+          recurringFrequency = button.dataset.frequency;
+          recurringButton.textContent = `Recurring: ${recurringFrequency}`;
+          recurringModal.hidden = true;
+        });
+      });
+
+      document.getElementById("booking-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        error.textContent = "";
+        const formData = new FormData(event.target);
+        try {
+          const appointment = createAppointment({
+            appointmentTypeSlug,
+            directLink,
+            date: String(formData.get("date") || ""),
+            time: String(formData.get("time") || ""),
+            firstName: String(formData.get("firstName") || ""),
+            lastName: String(formData.get("lastName") || ""),
+            email: String(formData.get("email") || ""),
+            phone: String(formData.get("phone") || ""),
+            notes: String(formData.get("notes") || ""),
+            recurringFrequency
+          });
+          location.assign(`/confirm/?id=${appointment.id}`);
+        } catch (err) {
+          error.textContent = err.message;
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<!doctype html>
+<html><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><link rel="stylesheet" href="/assets/styles.css" /><title>Confirmed</title></head>
+<body><main class="grid"><h1>Booking confirmed</h1><div class="card grid" id="summary"></div><div class="card actions" id="actions"></div></main>
+<script type="module">
+import { getAppointmentById } from "/assets/booking-core.js";
+const id = new URLSearchParams(location.search).get("id");
+const summary = document.getElementById("summary");
+const actions = document.getElementById("actions");
+const appointment = id ? getAppointmentById(id) : null;
+if (!appointment) {
+  summary.innerHTML = "<p class='error'>Appointment not found.</p>";
+} else {
+  summary.innerHTML = `<p>${appointment.client.firstName} ${appointment.client.lastName}</p><p>${appointment.date} at ${appointment.time}</p><p>${appointment.client.email}</p>`;
+  actions.innerHTML = `<a href='/manage/edit/?id=${appointment.id}'>Edit info</a><a href='/manage/reschedule/?id=${appointment.id}'>Reschedule</a><a href='/manage/cancel/?id=${appointment.id}'>Cancel</a>`;
+}
+</script></body></html>
