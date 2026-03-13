@@ -1,0 +1,10 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "build": "pnpm -r run build"
+  }
+}
