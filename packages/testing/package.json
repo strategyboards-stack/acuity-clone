@@ -1,0 +1,20 @@
+{
+  "name": "@acuity/testing",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./vitest-config": "./src/vitest-config.ts",
+    "./test-env": "./src/test-env.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@acuity/config": "workspace:*",
+    "@types/node": "^22.5.5",
+    "vitest": "^2.1.1"
+  }
+}

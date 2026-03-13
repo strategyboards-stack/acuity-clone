@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  owner
+  admin
+  contributor
+  client
+}
+
+enum PlanTier {
+  free
+  standard
+  premium
+  enterprise
+}
+
+model Account {
+  id           String      @id @default(cuid())
+  name         String
+  plan         PlanTier    @default(free)
+  trialActive  Boolean     @default(true)
+  users        User[]
+  workspaces   Workspace[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Workspace {
+  id             String   @id @default(cuid())
+  accountId      String
+  name           String
+  paymentReady   Boolean  @default(false)
+  verifiedDomain Boolean  @default(false)
+  account        Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model User {
+  id          String   @id @default(cuid())
+  accountId   String
+  email       String   @unique
+  role        Role
+  account     Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
