@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LocationKind {
+  IN_PERSON
+  PHONE
+  VIDEO
+  CUSTOM
+}
+
+model Appointment {
+  id         String   @id @default(uuid())
+  tenantId   String
+  startsAt   DateTime
+  endsAt     DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Calendar {
+  id         String              @id @default(uuid())
+  tenantId   String
+  name       String
+  timezone   String
+  isPrimary  Boolean             @default(false)
+  isActive   Boolean             @default(true)
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+  rules      AvailabilityRule[]
+  overrides  AvailabilityOverride[]
+
+  @@index([tenantId])
+}
+
+model Location {
+  id         String       @id @default(uuid())
+  tenantId   String
+  name       String
+  kind       LocationKind
+  details    String?
+  isActive   Boolean      @default(true)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  @@index([tenantId])
+}
+
+model AvailabilityRule {
+  id           String    @id @default(uuid())
+  tenantId     String
+  calendarId   String
+  dayOfWeek    Int
+  startMinute  Int
+  endMinute    Int
+  timezone     String
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  calendar     Calendar  @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, calendarId])
+}
+
+model AvailabilityOverride {
+  id           String    @id @default(uuid())
+  tenantId     String
+  calendarId   String
+  startsAt     DateTime
+  endsAt       DateTime
+  isAvailable  Boolean
+  reason       String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  calendar     Calendar  @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, calendarId])
+}
+
+model Resource {
+  id         String    @id @default(uuid())
+  tenantId   String
+  name       String
+  capacity   Int
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([tenantId])
+}
+
+model GlobalSchedulingLimit {
+  id                       String    @id @default(uuid())
+  tenantId                 String    @unique
+  minimumNoticeMinutes     Int
+  maximumAdvanceDays       Int
+  maxAppointmentsPerDay    Int
+  allowClientReschedule    Boolean   @default(true)
+  allowClientCancel        Boolean   @default(true)
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+}
