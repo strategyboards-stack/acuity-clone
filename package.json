@@ -1,0 +1,9 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p packages/contracts/tsconfig.json && tsc -p packages/money/tsconfig.json",
+    "typecheck": "tsc -p packages/contracts/tsconfig.json --noEmit && tsc -p packages/money/tsconfig.json --noEmit",
+    "test": "npm run build && node --test packages/money/test/*.test.mjs"
+  }
+}
