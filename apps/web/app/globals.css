@@ -1,0 +1,10 @@
+:root { font-family: Inter, Arial, sans-serif; }
+body { margin: 0; background: #f5f7fb; color: #16233a; }
+main { max-width: 1080px; margin: 0 auto; padding: 24px; }
+a { color: #0f4cda; }
+.card { background: #fff; border-radius: 10px; padding: 16px; border: 1px solid #dde3ef; margin-bottom: 12px; }
+.pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; margin-right: 8px; }
+.clickable { background: #e8f6ed; color: #146a35; }
+.backend_only { background: #fff7dd; color: #8d6700; }
+.not_implemented { background: #fce8e8; color: #9f1c1c; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
