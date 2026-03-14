@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { demoIdentities, previewSurfaces, statusLabel } from '../../../lib/demoData';
+import { previewScreenBySlug } from '../../../lib/previewScreens';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -17,6 +18,7 @@ export default async function PreviewSurfacePage({ params, searchParams }: Props
   }
 
   const identity = demoIdentities.find((entry) => entry.id === query.as) ?? demoIdentities[0];
+  const visual = previewScreenBySlug[slug];
 
   return (
     <main>
@@ -28,8 +30,7 @@ export default async function PreviewSurfacePage({ params, searchParams }: Props
         <h2>Local demo identity</h2>
         <p>Viewing as <strong>{identity.role}</strong> ({identity.email}).</p>
         <p>
-          Quick switch:
-          {' '}
+          Quick switch:{' '}
           {demoIdentities.map((entry) => (
             <Link key={entry.id} href={`/preview/${slug}?as=${entry.id}`} style={{ marginRight: 12 }}>
               {entry.role}
@@ -38,11 +39,14 @@ export default async function PreviewSurfacePage({ params, searchParams }: Props
         </p>
       </div>
 
-      <div className="card">
-        <h2>Surface note</h2>
-        <p>{surface.notes}</p>
-        <p>This is intentionally local preview scaffolding for manual review of current progress.</p>
-      </div>
+      {visual ? (
+        visual
+      ) : (
+        <div className="card">
+          <h2>Not visually wired yet</h2>
+          <p>{surface.notes}</p>
+        </div>
+      )}
     </main>
   );
 }
