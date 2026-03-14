@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { demoIdentities, previewSurfaces, statusLabel } from '@/lib/demoData';
+import { demoIdentities, previewSurfaces, statusLabel } from '../../../lib/demoData';
 
 type Props = {
   params: Promise<{ slug: string }>;

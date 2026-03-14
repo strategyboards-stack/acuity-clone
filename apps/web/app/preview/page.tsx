@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { demoIdentities, previewSurfaces, statusLabel } from '@/lib/demoData';
+import { demoIdentities, previewSurfaces, statusLabel } from '../../lib/demoData';
 
 export default function PreviewIndexPage() {
   const grouped = {
