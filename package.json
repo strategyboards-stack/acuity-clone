@@ -1,0 +1,11 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "install:check": "npm install --ignore-scripts --no-audit --no-fund",
+    "typecheck": "npm run typecheck -w @acuity/web",
+    "test": "npm run test -w @acuity/web",
+    "build": "npm run build -w @acuity/web"
+  }
+}
