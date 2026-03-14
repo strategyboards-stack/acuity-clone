@@ -1,0 +1,10 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "npm run build && node --test dist/apps/api/tests/**/*.test.js"
+  }
+}
