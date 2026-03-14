@@ -1,0 +1,13 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "install:check": "npm install --package-lock-only --ignore-scripts",
+    "typecheck": "node --check apps/web/src/main.js && node --check apps/web/src/lib/clients-crm.js && node --check apps/web/src/lib/auth.js",
+    "test": "node --test apps/web/src/__tests__/clients-crm.test.js",
+    "build": "node scripts/build.mjs",
+    "start:web": "python -m http.server 4173 --directory apps/web"
+  },
+  "type": "module"
+}
