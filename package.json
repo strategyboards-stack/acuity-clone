@@ -1,0 +1,15 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "install:check": "pnpm install --frozen-lockfile"
+  },
+  "devDependencies": {
+    "turbo": "^2.1.3",
+    "typescript": "^5.6.3"
+  }
+}
