@@ -1,0 +1,14 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "packages/contracts"
+  ],
+  "scripts": {
+    "install:check": "npm install --ignore-scripts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test dist/tests/**/*.test.js",
+    "build": "tsc -p tsconfig.json"
+  }
+}
