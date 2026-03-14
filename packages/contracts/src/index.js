@@ -1,0 +1,23 @@
+export const COMMUNICATION_CHANNELS = Object.freeze([
+  'CLIENT_EMAIL',
+  'SMS_REMINDER',
+  'RECEIPT_EMAIL',
+  'ADMIN_ALERT',
+]);
+
+export const COMMUNICATION_PURPOSES = Object.freeze([
+  'APPOINTMENT_REMINDER',
+  'APPOINTMENT_FOLLOW_UP',
+  'ORDER_RECEIPT',
+  'ADMIN_SCHEDULE_NOTICE',
+]);
+
+export const COMMUNICATION_STATUSES = Object.freeze([
+  'PENDING',
+  'LOCKED',
+  'SCHEDULED',
+  'SENDING',
+  'SENT',
+  'FAILED',
+  'SKIPPED',
+]);
