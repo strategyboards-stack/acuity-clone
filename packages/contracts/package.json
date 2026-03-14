@@ -1,0 +1,11 @@
+{
+  "name": "@packages/contracts",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --test test/**/*.test.mjs",
+    "build": "tsc -p tsconfig.json"
+  }
+}
