@@ -1,0 +1,11 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --package-lock-only --ignore-scripts",
+    "typecheck": "node scripts/typecheck.mjs",
+    "test": "node --test packages/contracts/test/*.test.mjs apps/web/test/*.test.mjs",
+    "build": "node scripts/build.mjs"
+  },
+  "type": "module"
+}
