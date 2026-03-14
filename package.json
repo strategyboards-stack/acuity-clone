@@ -1,0 +1,13 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "typecheck": "node scripts/ci/typecheck.mjs",
+    "test": "node --test scripts/ci/test-smoke.test.mjs",
+    "build": "node scripts/ci/build-check.mjs",
+    "dev": "pnpm --filter @acuity/web dev",
+    "smoke:self-service": "node scripts/ci/self-service-smoke.mjs"
+  }
+}
