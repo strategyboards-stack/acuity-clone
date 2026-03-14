@@ -1,0 +1,10 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "typecheck": "tsc -b --pretty false",
+    "build": "tsc -b --pretty false",
+    "test": "node apps/api/dist/money/money-foundation.spec.js"
+  }
+}
