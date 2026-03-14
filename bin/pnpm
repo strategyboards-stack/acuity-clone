@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ $# -eq 0 ]; then
+  echo "pnpm shim: missing command" >&2
+  exit 1
+fi
+
+cmd="$1"
+shift || true
+
+case "$cmd" in
+  install)
+    echo "pnpm shim install: no external dependencies to install in this recovered offline snapshot"
+    ;;
+  typecheck|test|build|lint)
+    npm run "$cmd" -- "$@"
+    ;;
+  *)
+    echo "pnpm shim does not support command: $cmd" >&2
+    exit 1
+    ;;
+esac
