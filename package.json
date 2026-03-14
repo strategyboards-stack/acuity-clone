@@ -1,0 +1,14 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run --workspaces --if-present build",
+    "typecheck": "npm run --workspaces --if-present typecheck",
+    "test": "npm run --workspaces --if-present test",
+    "lint": "npm run --workspaces --if-present lint"
+  }
+}
