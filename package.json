@@ -1,0 +1,13 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "typecheck": "npm run -w @acuity/contracts typecheck",
+    "test": "npm run -w @acuity/contracts test",
+    "build": "npm run -w @acuity/contracts build"
+  }
+}
