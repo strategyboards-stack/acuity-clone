@@ -1,0 +1,15 @@
+{
+  "name": "@acuity/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "node --check src/index.js src/integrations/integration-foundation.service.js",
+    "typecheck": "node --check src/index.js src/integrations/integration-foundation.service.js",
+    "test": "node --test src/integrations/integration-foundation.service.test.js"
+  },
+  "dependencies": {
+    "@acuity/contracts": "0.1.0"
+  }
+}
