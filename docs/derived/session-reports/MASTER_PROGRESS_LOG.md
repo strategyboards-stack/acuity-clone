@@ -5,3 +5,6 @@
 - Implemented Phase 5A admin calendar foundation (shell, day/week/month foundations, event list rendering, side panel, search/filter, manual create shell, active appointment state).
 - Added server-side admin route gating and shared appointment contracts.
 - Added tests for contracts and admin calendar state behaviors.
+
+- Applied PR #13 review fixes: hardened server-side admin session verification and strengthened appointment datetime range parsing with regression tests.
+- Added narrow Phase 5A follow-up hardening: strict admin token structure validation plus malformed appointment-duration filter guard and tests.

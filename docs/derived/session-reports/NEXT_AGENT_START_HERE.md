@@ -5,3 +5,5 @@
 3. Replace seeded admin calendar query adapter in `apps/web/src/admin-calendar.js` with API-backed repository when Phase scope allows.
 4. Preserve server-side auth gating in `apps/web/server.mjs`.
 5. Continue updating derived logs/checkpoints per phase.
+
+6. For local/manual admin login flows, provision `ACUITY_SESSION_SECRET` and issue signed `acuity_session` cookies; unsigned role cookies are intentionally ignored.
