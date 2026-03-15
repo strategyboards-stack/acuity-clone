@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { demoIdentities, previewSurfaces, statusLabel } from '../../../lib/demoData';
 import { previewScreenBySlug } from '../../../lib/previewScreens';
+import AdminCalendarSlice from '../../../components/AdminCalendarSlice';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -18,7 +19,7 @@ export default async function PreviewSurfacePage({ params, searchParams }: Props
   }
 
   const identity = demoIdentities.find((entry) => entry.id === query.as) ?? demoIdentities[0];
-  const visual = previewScreenBySlug[slug];
+  const visual = slug === 'admin-calendar' ? null : previewScreenBySlug[slug];
 
   return (
     <main>
@@ -39,7 +40,9 @@ export default async function PreviewSurfacePage({ params, searchParams }: Props
         </p>
       </div>
 
-      {visual ? (
+      {slug === 'admin-calendar' ? (
+        <AdminCalendarSlice />
+      ) : visual ? (
         visual
       ) : (
         <div className="card">
