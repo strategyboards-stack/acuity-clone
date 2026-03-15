@@ -44,6 +44,30 @@ const seededAppointments: Appointment[] = [
   }
 ];
 
+const dayLabelFormatter = new Intl.DateTimeFormat('en-US', {
+  weekday: 'short',
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC'
+});
+
+const timeLabelFormatter = new Intl.DateTimeFormat('en-US', {
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: true,
+  timeZone: 'UTC'
+});
+
+const dateTimeLabelFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: true,
+  timeZone: 'UTC'
+});
+
 function startOfWeek(date: Date) {
   const d = new Date(date);
   const day = d.getDay();
@@ -177,13 +201,13 @@ export default function AdminCalendarSlice() {
             {grouped.map(({ day, items }) => (
               <article key={day.toISOString()} className="day-cell">
                 <header>
-                  <strong>{day.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}</strong>
+                  <strong>{dayLabelFormatter.format(day)}</strong>
                 </header>
                 {items.length === 0 ? <p className="muted">No appointments</p> : null}
                 {items.map((item) => (
                   <button key={item.id} className={`appt ${item.status}`} onClick={() => setSelectedId(item.id)}>
                     <span>{item.title}</span>
-                    <small>{new Date(item.startsAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+                    <small>{timeLabelFormatter.format(new Date(item.startsAt))}</small>
                   </button>
                 ))}
               </article>
@@ -198,8 +222,8 @@ export default function AdminCalendarSlice() {
               <p><strong>{selected.title}</strong></p>
               <p>Client: {selected.clientName}</p>
               <p>Status: {selected.status}</p>
-              <p>Start: {new Date(selected.startsAt).toLocaleString()}</p>
-              <p>End: {new Date(selected.endsAt).toLocaleString()}</p>
+              <p>Start: {dateTimeLabelFormatter.format(new Date(selected.startsAt))}</p>
+              <p>End: {dateTimeLabelFormatter.format(new Date(selected.endsAt))}</p>
               <p>Notes: {selected.notes ?? '—'}</p>
             </>
           ) : (
