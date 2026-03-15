@@ -19,8 +19,15 @@
  * @param {{search?: string, staff?: string, status?: AppointmentStatus|"all", from: string, to: string}} query
  */
 export function filterAppointments(appointments, query) {
+  const fromTs = Date.parse(query.from);
+  const toTs = Date.parse(query.to);
+  if (!Number.isFinite(fromTs) || !Number.isFinite(toTs)) {
+    return [];
+  }
+
   return appointments.filter((apt) => {
-    if (apt.startsAt < query.from || apt.startsAt > query.to) return false;
+    const startTs = Date.parse(apt.startsAt);
+    if (!Number.isFinite(startTs) || startTs < fromTs || startTs > toTs) return false;
     if (query.staff && query.staff !== 'all' && apt.staffMemberName !== query.staff) return false;
     if (query.status && query.status !== 'all' && apt.status !== query.status) return false;
     if (query.search) {
