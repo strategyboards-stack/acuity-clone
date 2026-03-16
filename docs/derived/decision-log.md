@@ -17,3 +17,8 @@
 - **Context:** Follow-up required actual code implementation (not docs-only kickoff), prioritizing Admin Calendar slice.
 - **Decision:** Implemented runnable web surfaces under `apps/web` with shared route behavior and responsive CSS/JS for admin calendar, public booking, and client self-service.
 - **Why:** Satisfies Phase 11A scope while preserving single-domain logic and keeping manual preview review unblocked.
+
+## 2026-03-16 — D-011A-004: Phase 11A interaction hardening uses route-backed shells and shared handlers
+- **Context:** Manual review found non-functional action controls despite responsive rendering.
+- **Decision:** Implemented real interaction handlers for admin calendar, booking continue flow, and client reschedule flow; converted admin left nav items to route-backed shell links.
+- **Why:** Maintains Phase 11A focus on usable responsive parity without introducing separate mobile business logic.

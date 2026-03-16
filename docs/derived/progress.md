@@ -44,3 +44,4 @@
 - Extended responsive pass to public booking and client self-service with mobile-safe forms and modal close behavior.
 - Added verification scripts and tests wired through root `pnpm` scripts.
 - Fixed Phase 11A Admin Calendar blockers: month-view detail readability, manual create date selection, and time-label alignment.
+- Fixed functional interaction blockers: admin calendar action buttons now execute behaviors, shell nav is route-backed, booking continue advances flow, and client reschedule open/close/save are operational.

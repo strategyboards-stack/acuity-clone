@@ -3,6 +3,6 @@
   <h1>Client appointments</h1>
   <section class='card col'><p class='overflow-safe'>Upcoming: 2026-03-20 10:00 — Initial consult.</p><button class='btn secondary' data-open-modal>Reschedule</button></section>
 </main>
-<div class='modal'><div class='sheet col'><button class='btn secondary' data-close-modal>Close</button><h2>Reschedule</h2><label>Pick date<input class='input' type='date'/></label><label>Pick time<select><option>09:00</option></select></label><button class='btn'>Save</button></div></div>
+<div class='modal'><div class='sheet col'><button class='btn secondary' data-close-modal>Close</button><h2>Reschedule</h2><label>Pick date<input class='input' type='date' data-client-date/></label><label>Pick time<select data-client-time><option>09:00</option><option>10:00</option><option>11:00</option></select></label><button class='btn' data-client-save>Save</button><p class='status' data-client-status aria-live='polite'></p></div></div>
 <script type='module'>import {wireModal, can} from '/assets/app.js'; if (can('client','appointments:view-self')) wireModal();</script>
 </body></html>
