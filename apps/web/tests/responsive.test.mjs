@@ -29,7 +29,9 @@ test('admin shell links are route-backed', () => {
 test('booking continue advances flow with step states', () => {
   assert.ok(booking.includes("data-booking-step='1'"));
   assert.ok(booking.includes("data-booking-step='2'"));
+  assert.ok(booking.includes('data-booking-date'));
   assert.ok(adminJs.includes('wireBookingDemo'));
+  assert.ok(adminJs.includes('createAppointmentRequest'));
   assert.ok(adminJs.includes("step1?.classList.add('hidden')"));
 });
 

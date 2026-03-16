@@ -22,3 +22,8 @@
 - **Context:** Manual review found non-functional action controls despite responsive rendering.
 - **Decision:** Implemented real interaction handlers for admin calendar, booking continue flow, and client reschedule flow; converted admin left nav items to route-backed shell links.
 - **Why:** Maintains Phase 11A focus on usable responsive parity without introducing separate mobile business logic.
+
+## 2026-03-16 — D-011A-005: Booking demo persistence wired to real server-side appointment store
+- **Context:** Manual QA could not confirm if booking confirmation persisted data.
+- **Decision:** Added `/api/appointments` POST/GET endpoints in `apps/web/server.mjs` backed by `packages/db/appointments-repo.mjs` writing to `data/appointments.json`.
+- **Why:** Ensures `/booking/demo` confirms and creates a real persisted appointment record instead of a UI-only state transition.

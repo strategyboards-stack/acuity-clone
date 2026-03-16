@@ -11,6 +11,18 @@ export function can(role, perm) {
 const isoDate = (d) => d.toISOString().slice(0, 10);
 const formatDisplayDate = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
+
+const createAppointmentRequest = async (payload) => {
+  const response = await fetch('/api/appointments', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Unable to create appointment');
+  return data.appointment;
+};
+
 export function wireAdminCalendar() {
   const menuBtn = document.querySelector('[data-mobile-menu]');
   const sidenav = document.querySelector('.sidenav');
@@ -107,13 +119,30 @@ export function wireAdminCalendar() {
     createStatus.textContent = '';
   }));
 
-  submitCreate?.addEventListener('click', () => {
+  submitCreate?.addEventListener('click', async () => {
     const mode = createModal?.dataset.mode || 'create';
     if (mode === 'block') {
       createStatus.textContent = `Blocked ${createDate.value} at ${createTime.value}.`;
-    } else {
-      const clientName = createClient?.value?.trim() || 'Unnamed client';
-      createStatus.textContent = `Created appointment for ${clientName} on ${createDate.value} at ${createTime.value}.`;
+      return;
+    }
+
+    const clientName = createClient?.value?.trim() || 'Unnamed';
+    const [firstName, ...rest] = clientName.split(' ');
+    const payload = {
+      firstName: firstName || 'Guest',
+      lastName: rest.join(' ') || 'Client',
+      email: 'admin-created@example.test',
+      appointmentType: 'Manual Create',
+      date: createDate.value,
+      time: createTime.value,
+      source: 'admin-manual-create'
+    };
+
+    try {
+      const appointment = await createAppointmentRequest(payload);
+      createStatus.textContent = `Created appointment ${appointment.id} for ${clientName} on ${createDate.value} at ${createTime.value}.`;
+    } catch (error) {
+      createStatus.textContent = error.message;
     }
   });
 
@@ -132,6 +161,8 @@ export function wireBookingDemo() {
   const email = document.querySelector('[data-booking-email]');
   const type = document.querySelector('[data-booking-type]');
   const summary = document.querySelector('[data-booking-summary]');
+  const date = document.querySelector('[data-booking-date]');
+  const time = document.querySelector('[data-booking-time]');
   const status = document.querySelector('[data-booking-status]');
   const cont = document.querySelector('[data-booking-continue]');
   const back = document.querySelector('[data-booking-back]');
@@ -140,7 +171,8 @@ export function wireBookingDemo() {
   cont?.addEventListener('click', () => {
     const fullName = `${first?.value?.trim() || ''} ${last?.value?.trim() || ''}`.trim() || 'Guest';
     const selected = type?.value || 'Initial consultation';
-    if (summary) summary.textContent = `${fullName} (${email?.value || 'no email'}) — ${selected}.`;
+    if (!date.value) date.value = isoDate(new Date());
+    if (summary) summary.textContent = `${fullName} (${email?.value || 'no email'}) — ${selected} on ${date?.value} at ${time?.value}.`;
     step1?.classList.add('hidden');
     step2?.classList.remove('hidden');
   });
@@ -149,8 +181,23 @@ export function wireBookingDemo() {
     step1?.classList.remove('hidden');
     if (status) status.textContent = '';
   });
-  confirm?.addEventListener('click', () => {
-    if (status) status.textContent = 'Booking confirmed. Check your email for details.';
+  confirm?.addEventListener('click', async () => {
+    const payload = {
+      firstName: first?.value?.trim() || 'Guest',
+      lastName: last?.value?.trim() || 'Customer',
+      email: email?.value?.trim() || 'guest@example.test',
+      appointmentType: type?.value || 'Initial consultation',
+      date: date?.value || isoDate(new Date()),
+      time: time?.value || '09:00',
+      source: 'public-booking'
+    };
+
+    try {
+      const appointment = await createAppointmentRequest(payload);
+      if (status) status.textContent = `Booking confirmed and saved as ${appointment.id}.`;
+    } catch (error) {
+      if (status) status.textContent = `Booking failed: ${error.message}`;
+    }
   });
 }
 

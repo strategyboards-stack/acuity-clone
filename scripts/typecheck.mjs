@@ -7,7 +7,8 @@ const required = [
   'apps/web/public/booking/demo/index.html',
   'apps/web/public/client/index.html',
   'apps/web/public/assets/styles.css',
-  'apps/web/public/assets/app.js'
+  'apps/web/public/assets/app.js',
+  'packages/db/appointments-repo.mjs'
 ];
 for (const file of required) {
   if (!fs.existsSync(file)) {
