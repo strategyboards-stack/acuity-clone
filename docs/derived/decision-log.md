@@ -12,3 +12,8 @@
 - **Decision:** First mobile review target is the **public scheduling route** for the active scheduling page slug: `/booking/:slug`.
 - **Why:** Part 10 prioritizes public booking as a core validated mobile surface and Phase 11A scope item #1 requires responsive parity for public booking.
 - **Assumption handling:** The exact concrete slug is environment-dependent; evaluator should substitute the preview’s seeded slug.
+
+## 2026-03-16 — D-011A-003: Implemented shared responsive web surfaces with admin-calendar-first hardening
+- **Context:** Follow-up required actual code implementation (not docs-only kickoff), prioritizing Admin Calendar slice.
+- **Decision:** Implemented runnable web surfaces under `apps/web` with shared route behavior and responsive CSS/JS for admin calendar, public booking, and client self-service.
+- **Why:** Satisfies Phase 11A scope while preserving single-domain logic and keeping manual preview review unblocked.

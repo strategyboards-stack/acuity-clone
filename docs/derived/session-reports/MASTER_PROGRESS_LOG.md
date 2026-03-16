@@ -5,3 +5,4 @@
 - Re-anchored scope to mobile parity requirements and Part 10 audit deltas.
 - Added required derived docs and Phase 11A requirement mapping.
 - Prepared viewport hardening matrix and acceptance criteria for implementation/QA continuity.
+- Implemented actual Phase 11A code in `apps/web` (admin calendar first, then public booking/client self-service).

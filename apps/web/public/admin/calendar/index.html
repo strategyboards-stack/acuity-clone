@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><link rel='stylesheet' href='/assets/styles.css'/><title>Admin Calendar</title></head>
+<body>
+<main class='page safe-bottom'>
+  <div class='topbar'>
+    <h1>Admin Calendar</h1>
+    <button class='btn secondary mobile-nav-toggle' data-mobile-menu>Menu</button>
+  </div>
+  <section class='admin-shell'>
+    <nav class='sidenav card overflow-safe'>
+      <ul><li class='active'>Calendar</li><li>Availability</li><li>Clients</li><li>Invoices</li></ul>
+    </nav>
+    <section class='card'>
+      <div class='row'><button class='btn secondary'>Prev</button><button class='btn secondary'>Today</button><button class='btn secondary'>Next</button></div>
+      <h2>Week view</h2>
+      <div class='calendar-grid'>
+        <div class='slot'><button data-open-detail>9:00 Initial consult</button></div><div class='slot'><button data-open-detail>10:00 Follow-up</button></div>
+        <div class='slot'><button data-open-detail>11:00 New client</button></div><div class='slot'><button data-open-detail>12:00 Lunch hold</button></div>
+        <div class='slot'><button data-open-detail>13:00 Intake review</button></div><div class='slot'><button data-open-detail>14:00 Team sync</button></div>
+        <div class='slot'><button data-open-detail>15:00 Invoice call</button></div>
+      </div>
+    </section>
+    <aside class='card detail-panel'>
+      <button class='btn secondary' data-close-detail>Back</button>
+      <h2>Appointment detail</h2>
+      <label>Notes<textarea rows='6'>Client requested reminders by SMS.</textarea></label>
+      <div class='sticky-actions'><button class='btn secondary'>Cancel</button><button class='btn'>Save changes</button></div>
+    </aside>
+  </section>
+</main>
+<script type='module'>import {wireAdminCalendar, can} from '/assets/app.js'; if (can('admin','calendar:view')) wireAdminCalendar();</script>
+</body></html>

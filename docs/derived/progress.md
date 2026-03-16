@@ -37,3 +37,9 @@
 - Modal content scrolls without body-lock regressions; close/back always returns user context.
 - Admin calendar remains functional/unregressed.
 - No new mobile-only business rules introduced.
+
+## Implementation update (this run)
+- Added runnable web app surface in `apps/web` with admin-calendar-first mobile hardening.
+- Added mobile navigation toggle, overflow-safe layout, mobile detail panel drawer behavior, and sticky action bar for Admin Calendar.
+- Extended responsive pass to public booking and client self-service with mobile-safe forms and modal close behavior.
+- Added verification scripts and tests wired through root `pnpm` scripts.
