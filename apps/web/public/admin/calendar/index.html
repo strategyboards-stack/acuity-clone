@@ -10,23 +10,51 @@
     <nav class='sidenav card overflow-safe'>
       <ul><li class='active'>Calendar</li><li>Availability</li><li>Clients</li><li>Invoices</li></ul>
     </nav>
-    <section class='card'>
-      <div class='row'><button class='btn secondary'>Prev</button><button class='btn secondary'>Today</button><button class='btn secondary'>Next</button></div>
-      <h2>Week view</h2>
+    <section class='card calendar-main' data-calendar-view='week'>
+      <div class='toolbar-wrap'>
+        <div class='row compact-wrap'>
+          <button class='btn secondary'>Prev</button><button class='btn secondary'>Today</button><button class='btn secondary'>Next</button>
+        </div>
+        <div class='view-switch row compact-wrap' role='tablist' aria-label='Calendar view'>
+          <button class='btn secondary is-active' data-view='day' role='tab'>Day</button>
+          <button class='btn secondary is-active' data-view='week' role='tab'>Week</button>
+          <button class='btn secondary is-active' data-view='month' role='tab'>Month</button>
+        </div>
+      </div>
+      <h2 data-view-label>Week view</h2>
       <div class='calendar-grid'>
-        <div class='slot'><button data-open-detail>9:00 Initial consult</button></div><div class='slot'><button data-open-detail>10:00 Follow-up</button></div>
-        <div class='slot'><button data-open-detail>11:00 New client</button></div><div class='slot'><button data-open-detail>12:00 Lunch hold</button></div>
-        <div class='slot'><button data-open-detail>13:00 Intake review</button></div><div class='slot'><button data-open-detail>14:00 Team sync</button></div>
-        <div class='slot'><button data-open-detail>15:00 Invoice call</button></div>
+        <div class='slot'>
+          <button data-open-detail class='time-entry'><span class='time-label'>9:00</span><span>Initial consult</span></button>
+          <button data-open-create class='btn secondary create-inline'>+ Create</button>
+        </div>
+        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>10:00</span><span>Follow-up</span></button></div>
+        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>11:00</span><span>New client</span></button></div>
+        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>12:00</span><span>Lunch hold</span></button></div>
+        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>13:00</span><span>Intake review</span></button></div>
+        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>14:00</span><span>Team sync</span></button></div>
+        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>15:00</span><span>Invoice call</span></button></div>
       </div>
     </section>
-    <aside class='card detail-panel'>
+    <aside class='card detail-panel overflow-safe'>
       <button class='btn secondary' data-close-detail>Back</button>
       <h2>Appointment detail</h2>
+      <p class='muted'>Selected appointment: <span data-selected-time>10:00</span></p>
       <label>Notes<textarea rows='6'>Client requested reminders by SMS.</textarea></label>
       <div class='sticky-actions'><button class='btn secondary'>Cancel</button><button class='btn'>Save changes</button></div>
     </aside>
   </section>
 </main>
+
+<div class='modal' data-create-modal>
+  <div class='sheet col'>
+    <button class='btn secondary' data-close-create>Close</button>
+    <h2>Manual Create Appointment</h2>
+    <label>Appointment date<input class='input' data-create-date type='date' required /></label>
+    <label>Appointment time<select class='input'><option>09:00</option><option>10:00</option><option>11:00</option><option>14:00</option></select></label>
+    <label>Client name<input class='input' placeholder='Client full name' /></label>
+    <div class='sticky-actions'><button class='btn secondary' data-close-create>Cancel</button><button class='btn'>Create appointment</button></div>
+  </div>
+</div>
+
 <script type='module'>import {wireAdminCalendar, can} from '/assets/app.js'; if (can('admin','calendar:view')) wireAdminCalendar();</script>
 </body></html>

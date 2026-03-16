@@ -43,3 +43,4 @@
 - Added mobile navigation toggle, overflow-safe layout, mobile detail panel drawer behavior, and sticky action bar for Admin Calendar.
 - Extended responsive pass to public booking and client self-service with mobile-safe forms and modal close behavior.
 - Added verification scripts and tests wired through root `pnpm` scripts.
+- Fixed Phase 11A Admin Calendar blockers: month-view detail readability, manual create date selection, and time-label alignment.
