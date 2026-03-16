@@ -27,3 +27,8 @@
 - **Context:** Manual QA could not confirm if booking confirmation persisted data.
 - **Decision:** Added `/api/appointments` POST/GET endpoints in `apps/web/server.mjs` backed by `packages/db/appointments-repo.mjs` writing to `data/appointments.json`.
 - **Why:** Ensures `/booking/demo` confirms and creates a real persisted appointment record instead of a UI-only state transition.
+
+## 2026-03-16 — D-011A-006: Unified appointment read loop across booking, admin calendar, and client self-service
+- **Context:** Manual review confirmed booking persisted but new records were not visible in admin calendar or client self-service.
+- **Decision:** Both `/admin/calendar` and `/client` now load from the same `/api/appointments` source used by `/booking/demo` create flow.
+- **Why:** Enforces shared appointment aggregate visibility across public booking, admin operations, and client self-service in Phase 11A.

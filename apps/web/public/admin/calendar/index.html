@@ -45,6 +45,15 @@
         <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>14:00</span><span>Team sync</span></button></div>
         <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>15:00</span><span>Invoice call</span></button></div>
       </div>
+
+      <div class='card appointments-feed'>
+        <div class='topbar'>
+          <h3>Saved appointments</h3>
+          <button class='btn secondary' data-refresh-appointments>Refresh</button>
+        </div>
+        <ul class='appointment-list' data-admin-appointments-list></ul>
+        <p class='muted' data-admin-appointments-empty>No saved appointments yet.</p>
+      </div>
     </section>
     <aside class='card detail-panel overflow-safe'>
       <button class='btn secondary' data-close-detail>Back</button>

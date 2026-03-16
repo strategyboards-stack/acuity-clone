@@ -11,7 +11,6 @@ export function can(role, perm) {
 const isoDate = (d) => d.toISOString().slice(0, 10);
 const formatDisplayDate = (d) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
-
 const createAppointmentRequest = async (payload) => {
   const response = await fetch('/api/appointments', {
     method: 'POST',
@@ -21,6 +20,31 @@ const createAppointmentRequest = async (payload) => {
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || 'Unable to create appointment');
   return data.appointment;
+};
+
+const listAppointmentsRequest = async () => {
+  const response = await fetch('/api/appointments');
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Unable to load appointments');
+  return data.appointments || [];
+};
+
+const appointmentLabel = (a) => `${a.date} ${a.time} — ${a.firstName} ${a.lastName} (${a.appointmentType})`;
+
+const renderAppointmentList = (items, listNode, emptyNode) => {
+  if (!listNode || !emptyNode) return;
+  listNode.innerHTML = '';
+  if (!items.length) {
+    emptyNode.classList.remove('hidden');
+    return;
+  }
+  emptyNode.classList.add('hidden');
+  items.forEach((a) => {
+    const li = document.createElement('li');
+    li.className = 'appointment-item';
+    li.textContent = appointmentLabel(a);
+    listNode.appendChild(li);
+  });
 };
 
 export function wireAdminCalendar() {
@@ -55,6 +79,22 @@ export function wireAdminCalendar() {
   const submitCreate = document.querySelector('[data-submit-create]');
   const createStatus = document.querySelector('[data-create-status]');
 
+  const adminList = document.querySelector('[data-admin-appointments-list]');
+  const adminEmpty = document.querySelector('[data-admin-appointments-empty]');
+  const refreshAppointments = document.querySelector('[data-refresh-appointments]');
+
+  const refreshAdminAppointments = async () => {
+    try {
+      const rows = await listAppointmentsRequest();
+      renderAppointmentList(rows, adminList, adminEmpty);
+    } catch (error) {
+      if (adminEmpty) {
+        adminEmpty.textContent = `Unable to load appointments: ${error.message}`;
+        adminEmpty.classList.remove('hidden');
+      }
+    }
+  };
+
   const setFocusDate = () => {
     if (focusDateNode) focusDateNode.textContent = formatDisplayDate(focusDate);
     if (createDate) createDate.value = isoDate(focusDate);
@@ -82,7 +122,7 @@ export function wireAdminCalendar() {
   openers.forEach((btn) => btn.addEventListener('click', () => {
     const time = (btn.querySelector('.time-label')?.textContent || '').trim();
     if (time && selectedTime) selectedTime.textContent = time;
-    detailStatus.textContent = '';
+    if (detailStatus) detailStatus.textContent = '';
     detail?.classList.add('open');
   }));
 
@@ -101,13 +141,9 @@ export function wireAdminCalendar() {
 
   navButtons.forEach((btn) => btn.addEventListener('click', () => {
     const action = btn.getAttribute('data-nav');
-    if (action === 'today') {
-      focusDate = new Date();
-    } else if (action === 'prev') {
-      focusDate.setDate(focusDate.getDate() - 1);
-    } else if (action === 'next') {
-      focusDate.setDate(focusDate.getDate() + 1);
-    }
+    if (action === 'today') focusDate = new Date();
+    else if (action === 'prev') focusDate.setDate(focusDate.getDate() - 1);
+    else if (action === 'next') focusDate.setDate(focusDate.getDate() + 1);
     setFocusDate();
   }));
 
@@ -116,13 +152,13 @@ export function wireAdminCalendar() {
 
   closeCreate.forEach((btn) => btn.addEventListener('click', () => {
     createModal?.classList.remove('open');
-    createStatus.textContent = '';
+    if (createStatus) createStatus.textContent = '';
   }));
 
   submitCreate?.addEventListener('click', async () => {
     const mode = createModal?.dataset.mode || 'create';
     if (mode === 'block') {
-      createStatus.textContent = `Blocked ${createDate.value} at ${createTime.value}.`;
+      if (createStatus) createStatus.textContent = `Blocked ${createDate.value} at ${createTime.value}.`;
       return;
     }
 
@@ -140,9 +176,10 @@ export function wireAdminCalendar() {
 
     try {
       const appointment = await createAppointmentRequest(payload);
-      createStatus.textContent = `Created appointment ${appointment.id} for ${clientName} on ${createDate.value} at ${createTime.value}.`;
+      if (createStatus) createStatus.textContent = `Created appointment ${appointment.id} for ${clientName} on ${createDate.value} at ${createTime.value}.`;
+      await refreshAdminAppointments();
     } catch (error) {
-      createStatus.textContent = error.message;
+      if (createStatus) createStatus.textContent = error.message;
     }
   });
 
@@ -150,7 +187,10 @@ export function wireAdminCalendar() {
     if (detailStatus) detailStatus.textContent = '';
   });
 
+  refreshAppointments?.addEventListener('click', refreshAdminAppointments);
+
   setFocusDate();
+  refreshAdminAppointments();
 }
 
 export function wireBookingDemo() {
@@ -176,11 +216,13 @@ export function wireBookingDemo() {
     step1?.classList.add('hidden');
     step2?.classList.remove('hidden');
   });
+
   back?.addEventListener('click', () => {
     step2?.classList.add('hidden');
     step1?.classList.remove('hidden');
     if (status) status.textContent = '';
   });
+
   confirm?.addEventListener('click', async () => {
     const payload = {
       firstName: first?.value?.trim() || 'Guest',
@@ -201,7 +243,7 @@ export function wireBookingDemo() {
   });
 }
 
-export function wireModal() {
+export function wireClientSelfService() {
   const trigger = document.querySelector('[data-open-modal]');
   const modal = document.querySelector('.modal');
   const close = document.querySelector('[data-close-modal]');
@@ -209,20 +251,39 @@ export function wireModal() {
   const status = document.querySelector('[data-client-status]');
   const date = document.querySelector('[data-client-date]');
   const time = document.querySelector('[data-client-time]');
+  const refreshBtn = document.querySelector('[data-client-refresh]');
+  const listNode = document.querySelector('[data-client-appointments-list]');
+  const emptyNode = document.querySelector('[data-client-appointments-empty]');
+
+  const refreshClientAppointments = async () => {
+    try {
+      const rows = await listAppointmentsRequest();
+      renderAppointmentList(rows, listNode, emptyNode);
+    } catch (error) {
+      if (emptyNode) {
+        emptyNode.textContent = `Unable to load appointments: ${error.message}`;
+        emptyNode.classList.remove('hidden');
+      }
+    }
+  };
 
   trigger?.addEventListener('click', () => {
-    status.textContent = '';
+    if (status) status.textContent = '';
     if (!date.value) date.value = isoDate(new Date());
     modal?.classList.add('open');
   });
 
   close?.addEventListener('click', () => {
     modal?.classList.remove('open');
-    status.textContent = '';
+    if (status) status.textContent = '';
   });
 
   save?.addEventListener('click', () => {
-    status.textContent = `Rescheduled to ${date.value} at ${time.value}.`;
+    if (status) status.textContent = `Rescheduled to ${date.value} at ${time.value}.`;
     setTimeout(() => modal?.classList.remove('open'), 500);
   });
+
+  refreshBtn?.addEventListener('click', refreshClientAppointments);
+
+  refreshClientAppointments();
 }

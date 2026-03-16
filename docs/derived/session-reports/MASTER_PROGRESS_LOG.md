@@ -9,3 +9,4 @@
 - Addressed manual QA blockers in Admin Calendar: detail panel readability in month view, date-aware manual create flow, and time-label alignment regression.
 - Fixed Phase 11A functional action blockers across `/admin/calendar`, `/booking/demo`, and `/client` with route-backed shells and working interaction handlers.
 - Wired booking persistence in data layer via `/api/appointments` and verified disk-backed appointment creation from `/booking/demo`.
+- Unified appointment visibility loop so `/booking/demo` creates are rendered from shared source in both `/admin/calendar` and `/client`.

@@ -1,8 +1,13 @@
 <!doctype html><html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><link rel='stylesheet' href='/assets/styles.css'/><title>Client Self-Service</title></head><body>
 <main class='page col safe-bottom'>
   <h1>Client appointments</h1>
-  <section class='card col'><p class='overflow-safe'>Upcoming: 2026-03-20 10:00 — Initial consult.</p><button class='btn secondary' data-open-modal>Reschedule</button></section>
+  <section class='card col'>
+    <p class='overflow-safe'>Upcoming appointments from shared appointment store:</p>
+    <ul class='appointment-list' data-client-appointments-list></ul>
+    <p class='muted' data-client-appointments-empty>No appointments found yet.</p>
+    <div class='row'><button class='btn secondary' data-client-refresh>Refresh</button><button class='btn secondary' data-open-modal>Reschedule</button></div>
+  </section>
 </main>
 <div class='modal'><div class='sheet col'><button class='btn secondary' data-close-modal>Close</button><h2>Reschedule</h2><label>Pick date<input class='input' type='date' data-client-date/></label><label>Pick time<select data-client-time><option>09:00</option><option>10:00</option><option>11:00</option></select></label><button class='btn' data-client-save>Save</button><p class='status' data-client-status aria-live='polite'></p></div></div>
-<script type='module'>import {wireModal, can} from '/assets/app.js'; if (can('client','appointments:view-self')) wireModal();</script>
+<script type='module'>import {wireClientSelfService, can} from '/assets/app.js'; if (can('client','appointments:view-self')) wireClientSelfService();</script>
 </body></html>

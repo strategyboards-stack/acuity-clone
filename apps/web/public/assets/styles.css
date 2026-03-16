@@ -39,6 +39,10 @@ a { color:var(--brand); text-decoration:none; }
 .status { color:#0c6b58; min-height:1.25rem; }
 .sidenav a { display:block; color:inherit; }
 
+.appointments-feed { margin-top:12px; }
+.appointment-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+.appointment-item { border:1px solid var(--line); border-radius:8px; padding:8px; background:#fff; }
+
 @media (max-width: 1120px){
   .admin-shell{ grid-template-columns:220px 1fr; }
   .detail-panel{ grid-column:1 / -1; max-width:none; min-width:0; justify-self:stretch; }

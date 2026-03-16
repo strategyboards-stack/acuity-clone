@@ -46,3 +46,4 @@
 - Fixed Phase 11A Admin Calendar blockers: month-view detail readability, manual create date selection, and time-label alignment.
 - Fixed functional interaction blockers: admin calendar action buttons now execute behaviors, shell nav is route-backed, booking continue advances flow, and client reschedule open/close/save are operational.
 - Verified `/booking/demo` was previously UI-only for confirm state; implemented real appointment persistence through `/api/appointments` backed by `data/appointments.json`.
+- Unified the appointment loop: newly created bookings now appear in `/admin/calendar` and `/client` by reading from shared `/api/appointments` data source.
