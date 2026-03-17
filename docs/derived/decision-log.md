@@ -32,3 +32,8 @@
 - **Context:** Manual review confirmed booking persisted but new records were not visible in admin calendar or client self-service.
 - **Decision:** Both `/admin/calendar` and `/client` now load from the same `/api/appointments` source used by `/booking/demo` create flow.
 - **Why:** Enforces shared appointment aggregate visibility across public booking, admin operations, and client self-service in Phase 11A.
+
+## 2026-03-16 — D-011A-007: Block-off slots now participate in shared availability checks
+- **Context:** Manual QA found blocked slots were still bookable in public flow and calendar view toggles were label-only.
+- **Decision:** Block Off Time now persists as `source=admin-block-off` in shared appointment store and `/booking/demo` filters/blocks those slots; admin day/week/month now render distinct data projections from shared appointments.
+- **Why:** Completes Phase 11A availability parity using one shared appointment/availability model across public, admin, and client surfaces.

@@ -30,21 +30,11 @@
       </div>
       <p class='muted'>Focus date: <span data-focus-date></span></p>
       <h2 data-view-label>Week view</h2>
-      <div class='calendar-grid'>
-        <div class='slot'>
-          <button data-open-detail class='time-entry'><span class='time-label'>9:00</span><span>Initial consult</span></button>
-          <div class='row compact-wrap'>
-            <button data-open-create class='btn secondary create-inline'>+ Create</button>
-            <button data-open-block class='btn secondary create-inline'>Block Off Time</button>
-          </div>
-        </div>
-        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>10:00</span><span>Follow-up</span></button></div>
-        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>11:00</span><span>New client</span></button></div>
-        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>12:00</span><span>Lunch hold</span></button></div>
-        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>13:00</span><span>Intake review</span></button></div>
-        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>14:00</span><span>Team sync</span></button></div>
-        <div class='slot'><button data-open-detail class='time-entry'><span class='time-label'>15:00</span><span>Invoice call</span></button></div>
+      <div class='row compact-wrap'>
+        <button data-open-create class='btn secondary create-inline'>+ Create</button>
+        <button data-open-block class='btn secondary create-inline'>Block Off Time</button>
       </div>
+      <div class='calendar-grid' data-calendar-grid></div>
 
       <div class='card appointments-feed'>
         <div class='topbar'>
@@ -59,6 +49,7 @@
       <button class='btn secondary' data-close-detail>Back</button>
       <h2>Appointment detail</h2>
       <p class='muted'>Selected appointment: <span data-selected-time>10:00</span></p>
+      <p class='muted'>Type: <span data-selected-type>Initial consult</span></p>
       <label>Notes<textarea rows='6' data-detail-notes>Client requested reminders by SMS.</textarea></label>
       <p class='status' data-detail-status aria-live='polite'></p>
       <div class='sticky-actions'><button class='btn secondary' data-cancel-detail>Cancel</button><button class='btn' data-save-detail>Save changes</button></div>

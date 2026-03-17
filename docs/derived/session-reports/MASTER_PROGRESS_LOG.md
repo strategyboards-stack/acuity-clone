@@ -10,3 +10,4 @@
 - Fixed Phase 11A functional action blockers across `/admin/calendar`, `/booking/demo`, and `/client` with route-backed shells and working interaction handlers.
 - Wired booking persistence in data layer via `/api/appointments` and verified disk-backed appointment creation from `/booking/demo`.
 - Unified appointment visibility loop so `/booking/demo` creates are rendered from shared source in both `/admin/calendar` and `/client`.
+- Completed remaining blockers: Block Off Time now excludes booking availability and admin Day/Week/Month views now render distinct data projections.

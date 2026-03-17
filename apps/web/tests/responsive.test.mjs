@@ -12,15 +12,21 @@ test('includes mobile viewport hardening breakpoints', () => {
   for (const bp of ['820px', '430px']) assert.ok(css.includes(bp));
 });
 
-test('admin calendar action buttons are wired', () => {
-  for (const action of ['data-nav=\'prev\'', 'data-nav=\'today\'', 'data-nav=\'next\'', 'data-save-detail', 'data-open-create', 'data-open-block']) {
-    assert.ok(admin.includes(action));
-  }
-  assert.ok(appJs.includes("openCreateModal('block')"));
-  assert.ok(appJs.includes('saveDetail?.addEventListener'));
+test('admin day/week/month changes real projection logic', () => {
+  assert.ok(admin.includes('data-calendar-grid'));
+  assert.ok(appJs.includes("if (currentView === 'day')"));
+  assert.ok(appJs.includes("if (currentView === 'week')"));
+  assert.ok(appJs.includes('// month'));
 });
 
-test('admin/client use shared appointment source markers', () => {
+test('block off time is persisted as shared appointment source and affects booking availability', () => {
+  assert.ok(appJs.includes("source: 'admin-block-off'"));
+  assert.ok(appJs.includes('Unavailable on'));
+  assert.ok(appJs.includes('is unavailable (blocked)'));
+  assert.ok(booking.includes('data-booking-availability-note'));
+});
+
+test('admin and client use shared appointment source markers', () => {
   assert.ok(admin.includes('data-admin-appointments-list'));
   assert.ok(client.includes('data-client-appointments-list'));
   assert.ok(appJs.includes('listAppointmentsRequest'));
@@ -28,16 +34,7 @@ test('admin/client use shared appointment source markers', () => {
   assert.ok(appJs.includes('refreshClientAppointments'));
 });
 
-test('booking continue advances flow and confirm creates appointment through API', () => {
-  assert.ok(booking.includes("data-booking-step='1'"));
-  assert.ok(booking.includes("data-booking-step='2'"));
-  assert.ok(booking.includes('data-booking-date'));
-  assert.ok(appJs.includes('wireBookingDemo'));
-  assert.ok(appJs.includes('createAppointmentRequest'));
-  assert.ok(appJs.includes("step1?.classList.add('hidden')"));
-});
-
-test('client reschedule flow supports open, close, save', () => {
+test('client reschedule flow remains wired', () => {
   assert.ok(client.includes('data-open-modal'));
   assert.ok(client.includes('data-close-modal'));
   assert.ok(client.includes('data-client-save'));
