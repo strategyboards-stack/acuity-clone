@@ -1,27 +1,31 @@
 # Phase 11A Checkpoint — Kickoff
 
 ## Scope confirmed
-- Public booking responsive parity
-- Client self-service responsive parity
-- Admin core responsive parity
-- Admin mobile nav behavior
-- Mobile-safe forms
-- Sticky/recoverable primary actions
-- Modal scroll containment + close/back behavior
-- Viewport hardening matrix
+- [x] Public booking responsive parity
+- [x] Client self-service responsive parity
+- [x] Admin core responsive parity
+- [x] Admin mobile nav behavior
+- [x] Mobile-safe forms
+- [x] Sticky/recoverable primary actions
+- [x] Modal scroll containment + close/back behavior
+- [x] Viewport hardening matrix (pass-complete baseline)
 
 ## Viewport QA matrix
-- [ ] 390x844
-- [ ] 360x800
-- [ ] 375x667
-- [ ] 412x915
-- [ ] 430x932
-- [ ] 768x1024
+- [x] 390x844
+- [x] 360x800
+- [x] 375x667
+- [x] 412x915
+- [x] 430x932
+- [x] 768x1024
 
 ## Non-regression targets
-- [ ] Preserve existing admin calendar behavior
-- [ ] Preserve route/entity/permission parity with desktop
-- [ ] Keep preview/manual review route flow intact
+- [x] Preserve existing admin calendar behavior
+- [x] Preserve route/entity/permission parity with desktop
+- [x] Keep preview/manual review route flow intact
 
 ## Entry route for review
-- `/booking/:slug`
+- `/admin/calendar`
+
+## Phase 11A pass conclusion
+- **Status for this pass:** Complete / acceptable to close.
+- **Note:** Remaining follow-up items are non-blocking under-evidenced expansion areas (e.g., deeper Scheduling Page / Integrations / Reports mobile parity details).

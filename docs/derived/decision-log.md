@@ -37,3 +37,8 @@
 - **Context:** Manual QA found blocked slots were still bookable in public flow and calendar view toggles were label-only.
 - **Decision:** Block Off Time now persists as `source=admin-block-off` in shared appointment store and `/booking/demo` filters/blocks those slots; admin day/week/month now render distinct data projections from shared appointments.
 - **Why:** Completes Phase 11A availability parity using one shared appointment/availability model across public, admin, and client surfaces.
+
+## 2026-03-16 — D-011A-008: Close current Phase 11A pass as acceptable
+- **Context:** Manual review confirmed core blockers are resolved (manual create, block off, blocked-slot exclusion, meaningful Day/Week/Month projection shifts, and shared visibility in admin/client).
+- **Decision:** Mark current Phase 11A pass complete/acceptable to close without advancing to next phase yet.
+- **Why:** Core acceptance outcomes for this pass are achieved; remaining items are non-blocking expansion risks.

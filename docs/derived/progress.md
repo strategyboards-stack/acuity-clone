@@ -48,3 +48,4 @@
 - Verified `/booking/demo` was previously UI-only for confirm state; implemented real appointment persistence through `/api/appointments` backed by `data/appointments.json`.
 - Unified the appointment loop: newly created bookings now appear in `/admin/calendar` and `/client` by reading from shared `/api/appointments` data source.
 - Implemented real availability exclusion: admin Block Off Time now prevents booking those slots in `/booking/demo`; Day/Week/Month now render genuinely different calendar projections.
+- Phase 11A checkpoint is now complete for this pass and acceptable to close; remaining items are non-blocking under-evidenced expansion areas.

@@ -11,3 +11,4 @@
 - Wired booking persistence in data layer via `/api/appointments` and verified disk-backed appointment creation from `/booking/demo`.
 - Unified appointment visibility loop so `/booking/demo` creates are rendered from shared source in both `/admin/calendar` and `/client`.
 - Completed remaining blockers: Block Off Time now excludes booking availability and admin Day/Week/Month views now render distinct data projections.
+- Confirmed current Phase 11A pass complete/acceptable to close; documented remaining non-blocking gaps.
