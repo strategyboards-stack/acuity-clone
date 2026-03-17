@@ -1,0 +1,73 @@
+<!doctype html>
+<html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><link rel='stylesheet' href='/assets/styles.css'/><title>Admin Calendar</title></head>
+<body>
+<main class='page safe-bottom'>
+  <div class='topbar'>
+    <h1>Admin Calendar</h1>
+    <button class='btn secondary mobile-nav-toggle' data-mobile-menu>Menu</button>
+  </div>
+  <section class='admin-shell'>
+    <nav class='sidenav card overflow-safe'>
+      <ul>
+        <li class='active'><a href='/admin/calendar'>Calendar</a></li>
+        <li><a href='/admin/availability'>Availability</a></li>
+        <li><a href='/admin/clients'>Clients</a></li>
+        <li><a href='/admin/invoices'>Invoices</a></li>
+      </ul>
+    </nav>
+    <section class='card calendar-main' data-calendar-view='week'>
+      <div class='toolbar-wrap'>
+        <div class='row compact-wrap'>
+          <button class='btn secondary' data-nav='prev'>Prev</button>
+          <button class='btn secondary' data-nav='today'>Today</button>
+          <button class='btn secondary' data-nav='next'>Next</button>
+        </div>
+        <div class='view-switch row compact-wrap' role='tablist' aria-label='Calendar view'>
+          <button class='btn secondary is-active' data-view='day' role='tab'>Day</button>
+          <button class='btn secondary is-active' data-view='week' role='tab'>Week</button>
+          <button class='btn secondary is-active' data-view='month' role='tab'>Month</button>
+        </div>
+      </div>
+      <p class='muted'>Focus date: <span data-focus-date></span></p>
+      <h2 data-view-label>Week view</h2>
+      <div class='row compact-wrap'>
+        <button data-open-create class='btn secondary create-inline'>+ Create</button>
+        <button data-open-block class='btn secondary create-inline'>Block Off Time</button>
+      </div>
+      <div class='calendar-grid' data-calendar-grid></div>
+
+      <div class='card appointments-feed'>
+        <div class='topbar'>
+          <h3>Saved appointments</h3>
+          <button class='btn secondary' data-refresh-appointments>Refresh</button>
+        </div>
+        <ul class='appointment-list' data-admin-appointments-list></ul>
+        <p class='muted' data-admin-appointments-empty>No saved appointments yet.</p>
+      </div>
+    </section>
+    <aside class='card detail-panel overflow-safe'>
+      <button class='btn secondary' data-close-detail>Back</button>
+      <h2>Appointment detail</h2>
+      <p class='muted'>Selected appointment: <span data-selected-time>10:00</span></p>
+      <p class='muted'>Type: <span data-selected-type>Initial consult</span></p>
+      <label>Notes<textarea rows='6' data-detail-notes>Client requested reminders by SMS.</textarea></label>
+      <p class='status' data-detail-status aria-live='polite'></p>
+      <div class='sticky-actions'><button class='btn secondary' data-cancel-detail>Cancel</button><button class='btn' data-save-detail>Save changes</button></div>
+    </aside>
+  </section>
+</main>
+
+<div class='modal' data-create-modal>
+  <div class='sheet col'>
+    <button class='btn secondary' data-close-create>Close</button>
+    <h2 data-create-title>Manual Create Appointment</h2>
+    <label>Appointment date<input class='input' data-create-date type='date' required /></label>
+    <label>Appointment time<select class='input' data-create-time><option>09:00</option><option>10:00</option><option>11:00</option><option>14:00</option></select></label>
+    <label data-client-field>Client name<input class='input' data-create-client placeholder='Client full name' /></label>
+    <p class='status' data-create-status aria-live='polite'></p>
+    <div class='sticky-actions'><button class='btn secondary' data-close-create>Cancel</button><button class='btn' data-submit-create>Create appointment</button></div>
+  </div>
+</div>
+
+<script type='module'>import {wireAdminCalendar, can} from '/assets/app.js'; if (can('admin','calendar:view')) wireAdminCalendar();</script>
+</body></html>

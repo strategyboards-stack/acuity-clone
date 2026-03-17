@@ -1,0 +1,10 @@
+{
+  "name": "acuity-clone",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "typecheck": "node scripts/typecheck.mjs",
+    "test": "node --test apps/web/tests/*.test.mjs",
+    "build": "node scripts/build.mjs"
+  }
+}

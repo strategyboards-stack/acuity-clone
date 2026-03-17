@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/><link rel='stylesheet' href='/assets/styles.css'/><title>Public Booking</title></head><body>
+<main class='page col safe-bottom'>
+  <h1>Book an appointment</h1>
+  <section class='card col' data-booking-step='1'>
+    <div class='row'><label class='col' style='flex:1'>First name<input class='input' data-booking-first /></label><label class='col' style='flex:1'>Last name<input class='input' data-booking-last /></label></div>
+    <label>Email<input class='input' type='email' data-booking-email/></label>
+    <label>Appointment type<select data-booking-type><option>Initial consultation</option><option>Follow-up</option></select></label>
+    <label>Date<input class='input' type='date' data-booking-date/></label>
+    <label>Time<select data-booking-time><option>09:00</option><option>10:00</option><option>11:00</option></select></label>
+    <p class='muted' data-booking-availability-note></p>
+    <button class='btn' data-booking-continue>Continue</button>
+  </section>
+  <section class='card col hidden' data-booking-step='2'>
+    <h2>Confirm booking</h2>
+    <p class='muted' data-booking-summary></p>
+    <div class='row'><button class='btn secondary' data-booking-back>Edit</button><button class='btn' data-booking-confirm>Confirm appointment</button></div>
+    <p class='status' data-booking-status aria-live='polite'></p>
+  </section>
+</main>
+<script type='module'>import {wireBookingDemo, can} from '/assets/app.js'; if (can('public','booking:create')) wireBookingDemo();</script>
+</body></html>
